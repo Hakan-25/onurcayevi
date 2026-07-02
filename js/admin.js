@@ -20,26 +20,22 @@ var Store = {
   },
 
   defaultCats: [
-    { id: 'cat_1', name: 'Çaylar',          icon: '🍵', order: 1 },
-    { id: 'cat_2', name: 'Kahveler',         icon: '☕', order: 2 },
-    { id: 'cat_3', name: 'Soğuk İçecekler', icon: '🥤', order: 3 },
-    { id: 'cat_4', name: 'Atıştırmalıklar', icon: '🍪', order: 4 }
+    { id: 'cat_1', name: 'Çaylar',      icon: '🍵', order: 1 },
+    { id: 'cat_2', name: 'Atıştırmalık', icon: '🥪', order: 2 }
   ],
 
   defaultProducts: [
-    { id:'p_1',  categoryId:'cat_1', name:'Türk Çayı',       price:15, description:'Doğu Karadeniz\'den özel seçim demlik çayımız.', image:'', badge:'' },
-    { id:'p_2',  categoryId:'cat_1', name:'Bitki Çayı',       price:25, description:'Nane, papatya, ıhlamur karışımı aromalı çay.', image:'', badge:'Popüler' },
-    { id:'p_3',  categoryId:'cat_1', name:'Earl Grey',         price:30, description:'Bergamot aromalı özel çay karışımı.', image:'', badge:'' },
-    { id:'p_4',  categoryId:'cat_1', name:'Yeşil Çay',         price:25, description:'Japon tarzı hafif yeşil çay.', image:'', badge:'' },
-    { id:'p_5',  categoryId:'cat_2', name:'Türk Kahvesi',       price:35, description:'Geleneksel yöntemle hazırlanan köpüklü Türk kahvesi.', image:'', badge:'Özel' },
-    { id:'p_6',  categoryId:'cat_2', name:'Filtre Kahve',       price:40, description:'Öğütülmüş taze filtre kahve, sade veya sütlü.', image:'', badge:'' },
-    { id:'p_7',  categoryId:'cat_2', name:'Sütlü Kahve',        price:45, description:'Kremalı köpüklü süt ve espresso karışımı.', image:'', badge:'Popüler' },
-    { id:'p_8',  categoryId:'cat_3', name:'Limonata',           price:35, description:'Taze sıkılmış limon, nane ile limonata.', image:'', badge:'' },
-    { id:'p_9',  categoryId:'cat_3', name:'Ayran',              price:20, description:'Ev yapımı tuzsuz ya da tuzlu ayran.', image:'', badge:'' },
-    { id:'p_10', categoryId:'cat_3', name:'Meyve Suyu',         price:30, description:'Portakal, elma veya vişne meyve suyu.', image:'', badge:'' },
-    { id:'p_11', categoryId:'cat_4', name:'Simit',              price:15, description:'Taze fırın simidi, susam kaplı.', image:'', badge:'' },
-    { id:'p_12', categoryId:'cat_4', name:'Poğaça',             price:20, description:'Peynirli ya da zeytinli ev yapımı poğaça.', image:'', badge:'Popüler' },
-    { id:'p_13', categoryId:'cat_4', name:'Kurabiye',           price:18, description:'Çeşitli ev yapımı kurabiyeler, günlük taze.', image:'', badge:'' }
+    { id:'p_1',  categoryId:'cat_1', name:'Türk Çayı',           price:15,  description:'Demlik çayımız, Doğu Karadeniz seçim. Sıcak servis edilir.',               image:'images/cay_turk.png',       badge:'' },
+    { id:'p_2',  categoryId:'cat_1', name:'Oralet Kivili',         price:15,  description:'Ferahlatıcı kivi aromalı meyve çayı, çay bardağında sıcak servis.',       image:'images/cay_kivi.png',       badge:'' },
+    { id:'p_3',  categoryId:'cat_1', name:'Oralet Portakallı',     price:15,  description:'Taze portakal aromalı meyve çayı, çay bardağında.',                      image:'images/cay_portakal.png',   badge:'' },
+    { id:'p_4',  categoryId:'cat_1', name:'Oralet Muzlu',          price:15,  description:'Egzotik muz aromalı sıcak meyve çayı, çay bardağında.',                  image:'images/cay_muz.png',        badge:'' },
+    { id:'p_5',  categoryId:'cat_1', name:'Oralet Karadutlu',      price:15,  description:'Derin, yoğun karadut aromalı meyve çayı, çay bardağında.',              image:'images/cay_karadut.png',    badge:'Yeni' },
+    { id:'p_6',  categoryId:'cat_1', name:'Oralet Kuşburnulu',     price:15,  description:'C vitamini zengini kuşburnu aromalı meyve çayı.',                        image:'images/cay_kusburnu.png',   badge:'' },
+    { id:'p_7',  categoryId:'cat_1', name:'Nane Limon',            price:15,  description:'Taze nane ve limonun buluşması, ferahlatıcı bitki çayı.',                image:'images/cay_nane_limon.png', badge:'Popüler' },
+    { id:'p_8',  categoryId:'cat_1', name:'Ihlamur',               price:15,  description:'Doğal ıhlamur çiçeklerinden hazırlanan geleneksel bitki çayı.',          image:'images/cay_ihlamur.png',    badge:'' },
+    { id:'p_9',  categoryId:'cat_2', name:'Gözleme',               price:150, description:'Kare dilim gözleme, ince lavaş hamuru, iç malzeme seçiminize göre.',     image:'images/gozleme.png',        badge:'Özel' },
+    { id:'p_10', categoryId:'cat_2', name:'Tost (Tam)',             price:125, description:'Somon ekmeği 4 dilim, kaşarlı sucuklu tost. Tam porsiyon.',             image:'images/tost.png',           badge:'' },
+    { id:'p_11', categoryId:'cat_2', name:'Tost (Yarım)',           price:65,  description:'Somon ekmeği 2 dilim, kaşarlı sucuklu tost. Yarım porsiyon.',           image:'images/tost.png',           badge:'' }
   ],
 
   get: function(key, def) {
