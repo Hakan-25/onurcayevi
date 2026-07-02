@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Yönetici Paneli — Onur Çay Evi</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/admin.css">
+
+  <!-- QR Code Kütüphanesi -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+  <!-- ══════════════ GİRİŞ SAYFASI ══════════════ -->
+  <div id="login-page" style="display:flex">
+    <div class="login-card">
+      <div class="login-logo">
+        <div class="login-icon">🍵</div>
+        <div class="login-title">Onur Çay Evi</div>
+        <div class="login-sub">Yönetici Girişi</div>
+      </div>
+
+      <div id="login-error" class="login-error"></div>
+
+      <form id="login-form" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="login-user">Kullanıcı Adı</label>
+          <input
+            type="text"
+            id="login-user"
+            class="form-control"
+            placeholder="Kullanıcı adını girin"
+            autocomplete="username"
+            required
+          >
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="login-pass">Şifre</label>
+          <input
+            type="password"
+            id="login-pass"
+            class="form-control"
+            placeholder="Şifrenizi girin"
+            autocomplete="current-password"
+            required
+          >
+        </div>
+        <button type="submit" class="btn btn-primary" id="login-submit-btn">
+          🔑 Giriş Yap
+        </button>
+      </form>
+
+      <p style="text-align:center;margin-top:20px">
+        <a href="index.html" style="color:rgba(253,233,160,.4);font-size:13px;text-decoration:none">
+          ← Menüye Dön
+        </a>
+      </p>
+    </div>
+  </div>
+
+  <!-- ══════════════ ADMİN PANELİ ══════════════ -->
+  <div id="admin-page">
+
+    <!-- Sidebar Overlay (mobil) -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- ── SİDEBAR ── -->
+    <aside id="admin-sidebar" class="sidebar" role="navigation" aria-label="Yönetici menüsü">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon">🍵</div>
+        <div class="sidebar-brand">
+          Onur Çay Evi
+          <span>Yönetici Paneli</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Genel</div>
+        <button class="nav-item" data-panel="dashboard" id="nav-dashboard">
+          <span class="nav-icon">📊</span> Dashboard
+        </button>
+
+        <div class="nav-section-label">İçerik</div>
+        <button class="nav-item" data-panel="products" id="nav-products">
+          <span class="nav-icon">🍽️</span> Ürünler
+        </button>
+        <button class="nav-item" data-panel="categories" id="nav-categories">
+          <span class="nav-icon">📂</span> Kategoriler
+        </button>
+
+        <div class="nav-section-label">Araçlar</div>
+        <button class="nav-item" data-panel="qr" id="nav-qr">
+          <span class="nav-icon">📱</span> QR Kod
+        </button>
+        <button class="nav-item" data-panel="settings" id="nav-settings">
+          <span class="nav-icon">⚙️</span> Ayarlar
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="nav-item" id="goto-menu-btn" style="margin-bottom:8px">
+          <span class="nav-icon">👁️</span> Menüyü Görüntüle
+        </button>
+        <button class="nav-item" id="logout-btn">
+          <span class="nav-icon">🚪</span> Çıkış Yap
+        </button>
+      </div>
+    </aside>
+
+    <!-- ── ANA İÇERİK ── -->
+    <div class="admin-main">
+
+      <!-- TOPBAR -->
+      <header class="admin-topbar">
+        <div style="display:flex;align-items:center;gap:16px">
+          <button class="hamburger-btn" id="hamburger-btn" aria-label="Menü">☰</button>
+          <h1 class="topbar-title" id="topbar-title">Dashboard</h1>
+        </div>
+        <div class="topbar-actions">
+          <a href="index.html" target="_blank" class="btn btn-secondary" style="font-size:12px;padding:8px 14px">
+            👁️ Menüyü Gör
+          </a>
+        </div>
+      </header>
+
+      <!-- PANEL ALANI -->
+      <div class="admin-content">
+
+        <!-- ════ DASHBOARD ════ -->
+        <section class="panel" id="panel-dashboard">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon">🍽️</div>
+              <div class="stat-info">
+                <div class="stat-value" id="stat-products">0</div>
+                <div class="stat-label">Toplam Ürün</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">📂</div>
+              <div class="stat-info">
+                <div class="stat-value" id="stat-categories">0</div>
+                <div class="stat-label">Kategori</div>
+              </div>
+            </div>
+            <div class="stat-card" style="grid-column:span 2">
+              <div class="stat-icon">🍵</div>
+              <div class="stat-info">
+                <div class="stat-value" style="font-size:18px" id="stat-name">Onur Çay Evi</div>
+                <div class="stat-label">İşletme Adı</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="table-card">
+            <div class="table-header">
+              <div class="table-title">Son Ürünler</div>
+              <button class="btn btn-secondary" onclick="Admin.showPanel('products')" style="font-size:12px">
+                Tümünü Gör →
+              </button>
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Ürün</th>
+                  <th>Kategori</th>
+                  <th>Fiyat</th>
+                </tr>
+              </thead>
+              <tbody id="recent-products-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ════ ÜRÜNLER ════ -->
+        <section class="panel" id="panel-products">
+
+          <!-- Ürün Ekle / Düzenle Formu -->
+          <div class="form-card" id="product-form-card">
+            <div class="form-card-title">
+              🍽️ Ürün Ekle / Düzenle
+            </div>
+
+            <form id="product-form" novalidate>
+              <div class="form-grid">
+
+                <div class="form-group">
+                  <label class="form-label" for="prod-name">Ürün Adı *</label>
+                  <input type="text" id="prod-name" class="form-control" placeholder="ör. Türk Çayı" required>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="prod-price">Fiyat (₺) *</label>
+                  <input type="number" id="prod-price" class="form-control" placeholder="ör. 25" min="0" step="0.01" required>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="prod-category">Kategori *</label>
+                  <select id="prod-category" class="form-control" required>
+                    <option value="">— Kategori Seç —</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="prod-badge">Rozet (opsiyonel)</label>
+                  <input type="text" id="prod-badge" class="form-control" placeholder="ör. Popüler, Yeni, Özel">
+                  <p class="form-hint">Ürün kartında görünecek küçük etiket</p>
+                </div>
+
+                <div class="form-group form-full">
+                  <label class="form-label" for="prod-desc">Açıklama</label>
+                  <input type="text" id="prod-desc" class="form-control" placeholder="Ürün hakkında kısa açıklama...">
+                </div>
+
+                <div class="form-group form-full">
+                  <label class="form-label">Ürün Fotoğrafı</label>
+                  <div class="image-upload-area" id="prod-img-area">
+                    <input type="file" id="prod-img-input" accept="image/*" style="display:none">
+                    <div class="upload-content" style="text-align:center;pointer-events:none">
+                      <div class="upload-icon">📸</div>
+                      <div class="upload-text">Fotoğraf yüklemek için tıklayın</div>
+                      <div class="upload-sub">veya dosyayı buraya sürükleyin</div>
+                    </div>
+                    <img class="image-preview" id="prod-img-preview" src="" alt="" style="display:none">
+                    <div class="image-preview-overlay" style="display:none;color:#fff;font-size:13px">📸 Değiştir</div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div style="display:flex;gap:12px;margin-top:8px">
+                <button type="submit" class="btn btn-primary" id="prod-save-btn" style="flex:1">
+                  💾 Ürün Ekle
+                </button>
+                <button type="button" class="btn btn-secondary" id="prod-cancel-btn" style="display:none">
+                  ✕ İptal
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Ürün Listesi -->
+          <div class="table-card">
+            <div class="table-header">
+              <div class="table-title">Tüm Ürünler</div>
+            </div>
+            <div style="overflow-x:auto">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Ürün</th>
+                    <th>Kategori</th>
+                    <th>Fiyat</th>
+                    <th>Rozet</th>
+                    <th>İşlemler</th>
+                  </tr>
+                </thead>
+                <tbody id="products-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ════ KATEGORİLER ════ -->
+        <section class="panel" id="panel-categories">
+
+          <!-- Kategori Ekle Formu -->
+          <div class="form-card">
+            <div class="form-card-title">📂 Yeni Kategori Ekle</div>
+
+            <form id="category-form" novalidate>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="cat-name">Kategori Adı *</label>
+                  <input type="text" id="cat-name" class="form-control" placeholder="ör. Soğuk İçecekler" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cat-icon">Emoji / İkon</label>
+                  <input type="text" id="cat-icon" class="form-control" placeholder="ör. 🥤" maxlength="4">
+                  <p class="form-hint">Kategori için emoji seçin</p>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary" style="margin-top:8px">
+                ➕ Kategori Ekle
+              </button>
+            </form>
+          </div>
+
+          <!-- Kategori Listesi -->
+          <div class="form-card">
+            <div class="form-card-title">📋 Mevcut Kategoriler</div>
+            <div id="category-list" class="cat-list"></div>
+          </div>
+        </section>
+
+        <!-- ════ QR KOD ════ -->
+        <section class="panel" id="panel-qr">
+          <div class="form-card">
+            <div class="form-card-title">📱 QR Kod Oluşturucu</div>
+
+            <div class="qr-container">
+              <p style="color:rgba(253,233,160,.6);font-size:14px;margin-bottom:8px">
+                Aşağıdaki QR kodu müşterileriniz okutarak menüye ulaşabilir.
+              </p>
+
+              <div class="qr-canvas-wrap">
+                <div id="qr-canvas-container"></div>
+              </div>
+
+              <div style="margin-bottom:24px">
+                <p style="font-size:12px;color:rgba(255,255,255,.3);margin-bottom:8px">Menü Adresi:</p>
+                <a id="qr-url-display" target="_blank" href="#"
+                   style="color:var(--gold-300);font-size:14px;word-break:break-all;text-decoration:underline">
+                </a>
+              </div>
+
+              <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+                <button class="btn btn-primary" id="qr-download-btn" style="width:auto">
+                  ⬇️ QR Kodu İndir
+                </button>
+                <button class="btn btn-secondary" onclick="window.print()">
+                  🖨️ Yazdır
+                </button>
+              </div>
+
+              <div style="margin-top:32px;background:rgba(212,160,23,.07);border:1px solid rgba(212,160,23,.15);border-radius:14px;padding:20px">
+                <p style="color:var(--gold-300);font-size:14px;font-weight:600;margin-bottom:10px">💡 Nasıl Kullanılır?</p>
+                <ul style="color:rgba(255,255,255,.6);font-size:13px;line-height:2;padding-left:20px">
+                  <li>QR kodu indirin ve yazdırın</li>
+                  <li>Masaların üzerine veya tabelaya yerleştirin</li>
+                  <li>Müşteriler telefon kamerası ile okutarak menüye erişir</li>
+                  <li>Menüyü güncellediğinizde QR kod değişmez, yeni baskı gerekmez</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ════ AYARLAR ════ -->
+        <section class="panel" id="panel-settings">
+
+          <!-- İşletme Bilgileri -->
+          <div class="form-card">
+            <div class="form-card-title">🏪 İşletme Bilgileri</div>
+
+            <form id="settings-form" novalidate>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="set-name">İşletme Adı</label>
+                  <input type="text" id="set-name" class="form-control" placeholder="Onur Çay Evi">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="set-subtitle">Alt Başlık</label>
+                  <input type="text" id="set-subtitle" class="form-control" placeholder="Geleneksel Türk Çayı">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="set-phone">Telefon</label>
+                  <input type="tel" id="set-phone" class="form-control" placeholder="0xxx xxx xx xx">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="set-hours">Çalışma Saatleri</label>
+                  <input type="text" id="set-hours" class="form-control" placeholder="07:00 — 23:00">
+                </div>
+                <div class="form-group form-full">
+                  <label class="form-label" for="set-address">Adres</label>
+                  <input type="text" id="set-address" class="form-control" placeholder="İşletme adresi...">
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary" style="margin-top:16px">
+                💾 Ayarları Kaydet
+              </button>
+            </form>
+          </div>
+
+          <!-- Logo Yükleme -->
+          <div class="form-card">
+            <div class="form-card-title">🖼️ Logo</div>
+            <div class="logo-preview-box" id="logo-preview">🍵</div>
+            <button class="btn btn-secondary" onclick="document.getElementById('logo-file-input').click()">
+              📸 Logo Değiştir
+            </button>
+            <input type="file" id="logo-file-input" accept="image/*" style="display:none">
+            <p class="form-hint" style="margin-top:12px">Önerilen: kare formatlı, en az 200×200px</p>
+          </div>
+
+          <!-- Şifre Değiştir -->
+          <div class="form-card">
+            <div class="form-card-title">🔒 Şifre Değiştir</div>
+
+            <form id="password-form" novalidate>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="old-pass">Mevcut Şifre</label>
+                  <input type="password" id="old-pass" class="form-control" placeholder="Mevcut şifre" autocomplete="current-password">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="new-pass">Yeni Şifre</label>
+                  <input type="password" id="new-pass" class="form-control" placeholder="Yeni şifre" autocomplete="new-password">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="new-pass2">Yeni Şifre (Tekrar)</label>
+                  <input type="password" id="new-pass2" class="form-control" placeholder="Yeni şifreyi tekrar girin" autocomplete="new-password">
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary" style="margin-top:16px">
+                🔒 Şifreyi Güncelle
+              </button>
+            </form>
+          </div>
+
+        </section>
+
+      </div><!-- /admin-content -->
+    </div><!-- /admin-main -->
+  </div><!-- /admin-page -->
+
+  <!-- SCRIPT -->
+  <script src="js/admin.js"></script>
+
+</body>
+</html>
