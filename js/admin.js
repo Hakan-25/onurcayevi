@@ -9,9 +9,9 @@ var ADMIN_USER = 'admin';
 // ── VERİ YARDIMCISI ───────────────────────────────────────────────────────
 var Store = {
   K: {
-    settings:  'ocayevi_settings',
-    cats:      'ocayevi_categories',
-    products:  'ocayevi_products'
+    settings:  'ocayevi_settings_v2',
+    cats:      'ocayevi_categories_v2',
+    products:  'ocayevi_products_v2'
   },
 
   defaultSettings: {

@@ -3,7 +3,7 @@
    ============================================= */
 
 var MenuStore = {
-  K: { settings: 'ocayevi_settings', cats: 'ocayevi_categories', products: 'ocayevi_products' },
+  K: { settings: 'ocayevi_settings_v2', cats: 'ocayevi_categories_v2', products: 'ocayevi_products_v2' },
   defaultSettings: { name:'Onur Çay Evi', subtitle:'Geleneksel Türk Çayı', phone:'', address:'', hours:'', logo:'' },
   defaultCats: [
     { id:'cat_1', name:'Çaylar',      icon:'🍵', order:1 },
