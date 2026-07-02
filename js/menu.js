@@ -7,7 +7,8 @@ var MenuStore = {
   defaultSettings: { name:'Onur Çay Evi', subtitle:'Geleneksel Türk Çayı', phone:'', address:'', hours:'', logo:'' },
   defaultCats: [
     { id:'cat_1', name:'Çaylar',      icon:'🍵', order:1 },
-    { id:'cat_2', name:'Atıştırmalık', icon:'🥪', order:2 }
+    { id:'cat_2', name:'Atıştırmalık', icon:'🥪', order:2 },
+    { id:'cat_3', name:'Bisküvi', icon:'🍪', order:3 }
   ],
   defaultProducts: [
     { id:'p_1',  categoryId:'cat_1', name:'Türk Çayı',           price:15,  description:'Demlik çayımız, Doğu Karadeniz seçim. Sıcak servis edilir.',               image:'images/cay_turk.png',     badge:'' },
@@ -20,7 +21,18 @@ var MenuStore = {
     { id:'p_8',  categoryId:'cat_1', name:'Ihlamur',               price:15,  description:'Doğal ıhlamur çiçeklerinden hazırlanan geleneksel bitki çayı.',          image:'images/cay_ihlamur.png',  badge:'' },
     { id:'p_9',  categoryId:'cat_2', name:'Gözleme',               price:150, description:'Kare dilim gözleme, ince lavaş hamuru, iç malzeme seçiminize göre.',     image:'images/gozleme.jpg',      badge:'Özel' },
     { id:'p_10', categoryId:'cat_2', name:'Tost (Tam)',             price:125, description:'Somon ekmeği 4 dilim, kaşarlı sucuklu tost. Tam porsiyon.',             image:'images/tost.jpg',         badge:'' },
-    { id:'p_11', categoryId:'cat_2', name:'Tost (Yarım)',           price:65,  description:'Somon ekmeği 2 dilim, kaşarlı sucuklu tost. Yarım porsiyon.',           image:'images/tost.jpg',         badge:'' }
+    { id:'p_11', categoryId:'cat_2', name:'Tost (Yarım)',           price:65,  description:'Somon ekmeği 2 dilim, kaşarlı sucuklu tost. Yarım porsiyon.',           image:'images/tost.jpg',         badge:'' },
+    { id:'p_12', categoryId:'cat_3', name:'Eti Cin',             price:40, description:'Portakal jöleli klasik bisküvi.',                       image:'images/eti_cin.jpg',        badge:'' },
+    { id:'p_13', categoryId:'cat_3', name:'Nero',                price:40, description:'Kakaolu kremalı nefis bisküvi.',                        image:'images/eti_nero.jpg',       badge:'' },
+    { id:'p_14', categoryId:'cat_3', name:'Çizi',                price:40, description:'Peynir aromalı tuzlu kraker.',                          image:'images/ulker_cizi.jpg',     badge:'' },
+    { id:'p_15', categoryId:'cat_3', name:'İkram Sütlü Çikolata',price:40, description:'Sütlü çikolata kremalı sandviç bisküvi.',               image:'images/ikram_sutlu.jpg',    badge:'' },
+    { id:'p_16', categoryId:'cat_3', name:'İkram Fındıklı',      price:40, description:'Fındık kremalı sandviç bisküvi.',                       image:'images/ikram_findikli.jpg', badge:'' },
+    { id:'p_17', categoryId:'cat_3', name:'Eti Kombo',           price:40, description:'Çikolata kaplı çıtır bisküvi.',                         image:'images/eti_kombo.jpg',      badge:'' },
+    { id:'p_18', categoryId:'cat_3', name:'Hanımeller',          price:40, description:'Çokodamla damla çikolatalı anne kurabiyesi.',           image:'images/hanimeller.jpg',     badge:'' },
+    { id:'p_19', categoryId:'cat_3', name:'Burçak Kremalı',      price:40, description:'Yulaflı bisküvi arası nefis krema.',                    image:'images/burcak_kremali.jpg', badge:'' },
+    { id:'p_20', categoryId:'cat_3', name:'Benim O',             price:40, description:'Marshmallow ve çikolata kaplı bisküvi.',                image:'images/benim_o.jpg',        badge:'' },
+    { id:'p_21', categoryId:'cat_3', name:'Tutku',               price:40, description:'İçi akışkan çikolatalı efsane bisküvi.',                image:'images/eti_tutku.jpg',      badge:'Popüler' },
+    { id:'p_22', categoryId:'cat_3', name:'Burçak Sütlü Çikolatalı',price:45, description:'Sütlü çikolata kaplamalı yulaflı bisküvi.',            image:'images/burcak_sutlu.jpg',   badge:'' }
   ],
   get: function(key, def) {
     try { var r = localStorage.getItem(key); return r ? JSON.parse(r) : def; }
