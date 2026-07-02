@@ -1,263 +1,183 @@
 /* =============================================
-   ONUR ÇAY EVİ — MENÜ JAVASCRIPT
+   ONUR ÇAY EVİ — MENÜ JS
    ============================================= */
 
-'use strict';
-
-// ── VERİ KATMANI ──────────────────────────────────────────────────────────
-const DB = {
-  KEY_SETTINGS: 'ocayevi_settings',
-  KEY_CATS:     'ocayevi_categories',
-  KEY_PRODUCTS: 'ocayevi_products',
-
-  defaultSettings: {
-    name:     'Onur Çay Evi',
-    subtitle: 'Geleneksel Türk Çayı',
-    phone:    '',
-    address:  '',
-    hours:    '',
-    logo:     '',
-    cover:    ''
-  },
-
-  defaultCategories: [
-    { id: 'cat_1', name: 'Çaylar',            icon: '🍵', order: 1 },
-    { id: 'cat_2', name: 'Kahveler',           icon: '☕', order: 2 },
-    { id: 'cat_3', name: 'Soğuk İçecekler',   icon: '🥤', order: 3 },
-    { id: 'cat_4', name: 'Atıştırmalıklar',   icon: '🍪', order: 4 }
+var MenuStore = {
+  K: { settings: 'ocayevi_settings', cats: 'ocayevi_categories', products: 'ocayevi_products' },
+  defaultSettings: { name:'Onur Çay Evi', subtitle:'Geleneksel Türk Çayı', phone:'', address:'', hours:'', logo:'' },
+  defaultCats: [
+    { id:'cat_1', name:'Çaylar',          icon:'🍵', order:1 },
+    { id:'cat_2', name:'Kahveler',         icon:'☕', order:2 },
+    { id:'cat_3', name:'Soğuk İçecekler', icon:'🥤', order:3 },
+    { id:'cat_4', name:'Atıştırmalıklar', icon:'🍪', order:4 }
   ],
-
   defaultProducts: [
-    {
-      id: 'p_1', categoryId: 'cat_1',
-      name: 'Türk Çayı', price: 15,
-      description: 'Doğu Karadeniz\'den özel seçim, demlik çayımız.',
-      image: '', badge: ''
-    },
-    {
-      id: 'p_2', categoryId: 'cat_1',
-      name: 'Bitki Çayı', price: 25,
-      description: 'Nane, papatya, ıhlamur karışımı aromalı çay.',
-      image: '', badge: 'Popüler'
-    },
-    {
-      id: 'p_3', categoryId: 'cat_1',
-      name: 'Earl Grey', price: 30,
-      description: 'Bergamot aromalı özel çay karışımı.',
-      image: '', badge: ''
-    },
-    {
-      id: 'p_4', categoryId: 'cat_1',
-      name: 'Yeşil Çay', price: 25,
-      description: 'Japon tarzı hafif yeşil çay, antioksidan zengin.',
-      image: '', badge: ''
-    },
-    {
-      id: 'p_5', categoryId: 'cat_2',
-      name: 'Türk Kahvesi', price: 35,
-      description: 'Geleneksel yöntemle hazırlanan köpüklü Türk kahvesi.',
-      image: '', badge: 'Özel'
-    },
-    {
-      id: 'p_6', categoryId: 'cat_2',
-      name: 'Filtre Kahve', price: 40,
-      description: 'Öğütülmüş taze filtre kahve, sade veya sütlü.',
-      image: '', badge: ''
-    },
-    {
-      id: 'p_7', categoryId: 'cat_2',
-      name: 'Sütlü Kahve', price: 45,
-      description: 'Kremalı köpüklü süt ve espresso karışımı.',
-      image: '', badge: 'Popüler'
-    },
-    {
-      id: 'p_8', categoryId: 'cat_3',
-      name: 'Limonata', price: 35,
-      description: 'Taze sıkılmış limon, nane ile tazeleyici limonata.',
-      image: '', badge: ''
-    },
-    {
-      id: 'p_9', categoryId: 'cat_3',
-      name: 'Ayran', price: 20,
-      description: 'Ev yapımı, tuzsuz ya da tuzlu seçenekli ayran.',
-      image: '', badge: ''
-    },
-    {
-      id: 'p_10', categoryId: 'cat_3',
-      name: 'Meyve Suyu', price: 30,
-      description: 'Taze portakal, elma veya vişne meyve suyu.',
-      image: '', badge: ''
-    },
-    {
-      id: 'p_11', categoryId: 'cat_4',
-      name: 'Simit', price: 15,
-      description: 'Taze fırın simidi, susam kaplı geleneksel lezzet.',
-      image: '', badge: ''
-    },
-    {
-      id: 'p_12', categoryId: 'cat_4',
-      name: 'Poğaça', price: 20,
-      description: 'Peynirli ya da zeytinli ev yapımı poğaça.',
-      image: '', badge: 'Popüler'
-    },
-    {
-      id: 'p_13', categoryId: 'cat_4',
-      name: 'Kurabiye', price: 18,
-      description: 'Çeşitli ev yapımı kurabiyeler, günlük taze.',
-      image: '', badge: ''
-    }
+    { id:'p_1',  categoryId:'cat_1', name:'Türk Çayı',       price:15, description:'Doğu Karadeniz\'den özel seçim demlik çayımız.', image:'', badge:'' },
+    { id:'p_2',  categoryId:'cat_1', name:'Bitki Çayı',       price:25, description:'Nane, papatya, ıhlamur karışımı aromalı çay.', image:'', badge:'Popüler' },
+    { id:'p_3',  categoryId:'cat_1', name:'Earl Grey',         price:30, description:'Bergamot aromalı özel çay karışımı.', image:'', badge:'' },
+    { id:'p_4',  categoryId:'cat_1', name:'Yeşil Çay',         price:25, description:'Japon tarzı hafif yeşil çay.', image:'', badge:'' },
+    { id:'p_5',  categoryId:'cat_2', name:'Türk Kahvesi',       price:35, description:'Geleneksel yöntemle hazırlanan köpüklü Türk kahvesi.', image:'', badge:'Özel' },
+    { id:'p_6',  categoryId:'cat_2', name:'Filtre Kahve',       price:40, description:'Öğütülmüş taze filtre kahve, sade veya sütlü.', image:'', badge:'' },
+    { id:'p_7',  categoryId:'cat_2', name:'Sütlü Kahve',        price:45, description:'Kremalı köpüklü süt ve espresso karışımı.', image:'', badge:'Popüler' },
+    { id:'p_8',  categoryId:'cat_3', name:'Limonata',           price:35, description:'Taze sıkılmış limon, nane ile limonata.', image:'', badge:'' },
+    { id:'p_9',  categoryId:'cat_3', name:'Ayran',              price:20, description:'Ev yapımı tuzsuz ya da tuzlu ayran.', image:'', badge:'' },
+    { id:'p_10', categoryId:'cat_3', name:'Meyve Suyu',         price:30, description:'Portakal, elma veya vişne meyve suyu.', image:'', badge:'' },
+    { id:'p_11', categoryId:'cat_4', name:'Simit',              price:15, description:'Taze fırın simidi, susam kaplı.', image:'', badge:'' },
+    { id:'p_12', categoryId:'cat_4', name:'Poğaça',             price:20, description:'Peynirli ya da zeytinli ev yapımı poğaça.', image:'', badge:'Popüler' },
+    { id:'p_13', categoryId:'cat_4', name:'Kurabiye',           price:18, description:'Çeşitli ev yapımı kurabiyeler, günlük taze.', image:'', badge:'' }
   ],
-
-  getSettings()   { return JSON.parse(localStorage.getItem(this.KEY_SETTINGS) || 'null') || this.defaultSettings; },
-  getCategories() { return JSON.parse(localStorage.getItem(this.KEY_CATS)     || 'null') || [...this.defaultCategories]; },
-  getProducts()   { return JSON.parse(localStorage.getItem(this.KEY_PRODUCTS) || 'null') || [...this.defaultProducts]; }
+  get: function(key, def) {
+    try { var r = localStorage.getItem(key); return r ? JSON.parse(r) : def; }
+    catch(e) { return def; }
+  },
+  getSettings:  function() { return this.get(this.K.settings, Object.assign({}, this.defaultSettings)); },
+  getCats:      function() { return this.get(this.K.cats,     this.defaultCats.slice()); },
+  getProducts:  function() { return this.get(this.K.products, this.defaultProducts.slice()); }
 };
 
-// ── YARDIMCI FONKSIYONLAR ─────────────────────────────────────────────────
-function escapeHtml(str) {
-  const d = document.createElement('div');
-  d.textContent = str || '';
-  return d.innerHTML;
-}
+function mEsc(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
 
-function formatPrice(price) {
-  return Number(price).toFixed(0);
-}
+var Menu = {
+  settings:  null,
+  cats:      [],
+  products:  [],
+  activeCat: 'all',
+  query:     '',
 
-// ── ANA UYGULAMA ──────────────────────────────────────────────────────────
-const App = {
-  settings:   null,
-  categories: [],
-  products:   [],
-  activeCategory: 'all',
-  searchQuery: '',
-
-  init() {
-    this.settings   = DB.getSettings();
-    this.categories = DB.getCategories();
-    this.products   = DB.getProducts();
-
+  init: function() {
+    this.settings = MenuStore.getSettings();
+    this.cats     = MenuStore.getCats();
+    this.products = MenuStore.getProducts();
     this.applySettings();
-    this.renderCategoryTabs();
+    this.buildCategoryNav();
     this.renderMenu();
     this.bindSearch();
   },
 
-  applySettings() {
-    const s = this.settings;
-    // Brand name
-    document.querySelectorAll('[data-setting="name"]').forEach(el => el.textContent = s.name);
-    document.querySelectorAll('[data-setting="subtitle"]').forEach(el => el.textContent = s.subtitle || '');
+  applySettings: function() {
+    var s = this.settings;
 
-    // Contact info
-    if (s.phone) {
-      const phoneEl = document.getElementById('hero-phone');
-      if (phoneEl) { phoneEl.textContent = s.phone; phoneEl.closest('.hero-info-item').style.display = 'flex'; }
-    }
-    if (s.address) {
-      const addrEl = document.getElementById('hero-address');
-      if (addrEl) { addrEl.textContent = s.address; addrEl.closest('.hero-info-item').style.display = 'flex'; }
-    }
-    if (s.hours) {
-      const hoursEl = document.getElementById('hero-hours');
-      if (hoursEl) { hoursEl.textContent = s.hours; hoursEl.closest('.hero-info-item').style.display = 'flex'; }
-    }
-
-    // Footer
-    const footerBrand = document.getElementById('footer-brand');
-    if (footerBrand) footerBrand.textContent = s.name;
-
-    const footerPhone = document.getElementById('footer-phone');
-    if (footerPhone && s.phone) { footerPhone.textContent = s.phone; footerPhone.href = 'tel:' + s.phone.replace(/\s/g,''); }
-    else if (footerPhone) footerPhone.closest('.footer-contact-item')?.remove();
-
-    const footerAddr = document.getElementById('footer-address');
-    if (footerAddr && s.address) footerAddr.textContent = s.address;
-    else if (footerAddr) footerAddr.closest('.footer-contact-item')?.remove();
+    // Başlık
+    document.querySelectorAll('[data-setting="name"]').forEach(function(el) { el.textContent = s.name; });
+    document.querySelectorAll('[data-setting="subtitle"]').forEach(function(el) { el.textContent = s.subtitle || ''; });
+    document.title = s.name + ' — Menü';
 
     // Logo
     if (s.logo) {
-      const logoIconEl = document.getElementById('logo-icon');
-      if (logoIconEl) {
-        logoIconEl.innerHTML = `<img src="${s.logo}" alt="Logo" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
-      }
+      var logoEl = document.getElementById('logo-icon');
+      if (logoEl) logoEl.innerHTML = '<img src="' + s.logo + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%" alt="Logo">';
     }
 
-    // Page title
-    document.title = s.name + ' — Menü';
+    // Hero bilgi
+    if (s.phone) {
+      var pw = document.getElementById('hero-phone');
+      var pw2 = document.getElementById('hero-phone-wrap');
+      if (pw) pw.textContent = s.phone;
+      if (pw2) pw2.style.display = 'flex';
+    }
+    if (s.address) {
+      var aw = document.getElementById('hero-address');
+      var aw2 = document.getElementById('hero-addr-wrap');
+      if (aw) aw.textContent = s.address;
+      if (aw2) aw2.style.display = 'flex';
+    }
+    if (s.hours) {
+      var hw = document.getElementById('hero-hours');
+      var hw2 = document.getElementById('hero-hours-wrap');
+      if (hw) hw.textContent = s.hours;
+      if (hw2) hw2.style.display = 'flex';
+    }
+
+    // Footer
+    var fb = document.getElementById('footer-brand');
+    if (fb) fb.textContent = s.name;
+
+    var fc = document.getElementById('footer-contact');
+    if (fc) {
+      fc.innerHTML = '';
+      if (s.phone) {
+        var a = document.createElement('a');
+        a.href = 'tel:' + s.phone.replace(/\s/g,'');
+        a.innerHTML = '📞 ' + mEsc(s.phone);
+        fc.appendChild(a);
+      }
+      if (s.address) {
+        var sp = document.createElement('span');
+        sp.innerHTML = '📍 ' + mEsc(s.address);
+        fc.appendChild(sp);
+      }
+      if (s.hours) {
+        var sp2 = document.createElement('span');
+        sp2.innerHTML = '🕐 ' + mEsc(s.hours);
+        fc.appendChild(sp2);
+      }
+    }
   },
 
-  renderCategoryTabs() {
-    const nav = document.getElementById('category-nav');
+  buildCategoryNav: function() {
+    var nav = document.getElementById('category-nav');
     if (!nav) return;
+    nav.innerHTML = '';
+    var self = this;
 
-    // "Tümü" butonu
-    const allBtn = document.createElement('button');
-    allBtn.className = 'cat-tab all-tab active';
+    // Tümü
+    var allBtn = document.createElement('button');
+    allBtn.className = 'cat-tab active';
     allBtn.dataset.catId = 'all';
-    allBtn.innerHTML = `<span class="cat-icon">🍽️</span> Tümü`;
-    allBtn.addEventListener('click', () => this.filterByCategory('all', allBtn));
+    allBtn.innerHTML = '🍽️ Tümü';
+    allBtn.addEventListener('click', function() { self.filterCat('all', allBtn); });
     nav.appendChild(allBtn);
 
-    // Kategori butonları
-    const sorted = [...this.categories].sort((a, b) => (a.order || 0) - (b.order || 0));
-    sorted.forEach(cat => {
-      const btn = document.createElement('button');
+    // Kategoriler
+    this.cats.slice().sort(function(a,b){ return a.order - b.order; }).forEach(function(cat) {
+      var btn = document.createElement('button');
       btn.className = 'cat-tab';
       btn.dataset.catId = cat.id;
-      btn.innerHTML = `<span class="cat-icon">${escapeHtml(cat.icon)}</span> ${escapeHtml(cat.name)}`;
-      btn.addEventListener('click', () => this.filterByCategory(cat.id, btn));
+      btn.innerHTML = mEsc(cat.icon) + ' ' + mEsc(cat.name);
+      btn.addEventListener('click', function() { self.filterCat(cat.id, btn); });
       nav.appendChild(btn);
     });
   },
 
-  filterByCategory(catId, btnEl) {
-    this.activeCategory = catId;
-    this.searchQuery = '';
-    const searchInput = document.getElementById('search-input');
-    if (searchInput) searchInput.value = '';
+  filterCat: function(catId, btnEl) {
+    this.activeCat = catId;
+    this.query = '';
+    var inp = document.getElementById('search-input');
+    if (inp) inp.value = '';
 
-    // Aktif tab güncelle
-    document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.cat-tab').forEach(function(b) { b.classList.remove('active'); });
     if (btnEl) btnEl.classList.add('active');
 
-    // Sections göster/gizle
-    if (catId === 'all') {
-      document.querySelectorAll('.menu-section').forEach(s => s.classList.remove('hidden'));
-    } else {
-      document.querySelectorAll('.menu-section').forEach(s => {
-        s.classList.toggle('hidden', s.dataset.catId !== catId);
-      });
-    }
-
+    document.querySelectorAll('.menu-section').forEach(function(s) {
+      s.classList.toggle('hidden', catId !== 'all' && s.dataset.catId !== catId);
+    });
     this.checkEmpty();
   },
 
-  renderMenu() {
-    const container = document.getElementById('menu-container');
+  renderMenu: function() {
+    var container = document.getElementById('menu-container');
     if (!container) return;
     container.innerHTML = '';
+    var self = this;
 
-    const sorted = [...this.categories].sort((a, b) => (a.order || 0) - (b.order || 0));
-
-    sorted.forEach((cat, idx) => {
-      const prods = this.products.filter(p => p.categoryId === cat.id);
+    this.cats.slice().sort(function(a,b){ return a.order - b.order; }).forEach(function(cat, idx) {
+      var prods = self.products.filter(function(p) { return p.categoryId === cat.id; });
       if (prods.length === 0) return;
 
-      const section = document.createElement('section');
+      var section = document.createElement('section');
       section.className = 'menu-section';
       section.dataset.catId = cat.id;
-      section.style.animationDelay = `${idx * 0.08}s`;
+      section.style.animationDelay = (idx * 0.07) + 's';
 
-      const title = document.createElement('h2');
+      var title = document.createElement('h2');
       title.className = 'section-title';
-      title.textContent = `${cat.icon}  ${cat.name}`;
+      title.textContent = cat.icon + '  ' + cat.name;
 
-      const grid = document.createElement('div');
+      var grid = document.createElement('div');
       grid.className = 'product-grid';
 
-      prods.forEach((prod, pIdx) => {
-        const card = this.createCard(prod, cat, pIdx);
+      prods.forEach(function(prod, pIdx) {
+        var card = self.makeCard(prod, cat, pIdx);
         grid.appendChild(card);
       });
 
@@ -269,93 +189,85 @@ const App = {
     this.checkEmpty();
   },
 
-  createCard(prod, cat, idx) {
-    const card = document.createElement('div');
+  makeCard: function(prod, cat, idx) {
+    var card = document.createElement('div');
     card.className = 'product-card';
-    card.dataset.prodId = prod.id;
-    card.dataset.search = `${prod.name} ${prod.description || ''}`.toLowerCase();
-    card.style.animationDelay = `${idx * 0.06}s`;
+    card.dataset.search = (prod.name + ' ' + (prod.description || '')).toLowerCase();
+    card.style.animationDelay = (idx * 0.05) + 's';
 
-    const imageHtml = prod.image
-      ? `<img class="card-image" src="${prod.image}" alt="${escapeHtml(prod.name)}" loading="lazy">`
-      : `<div class="card-image-placeholder"><span>${escapeHtml(cat.icon)}</span></div>`;
+    var imgHtml = prod.image
+      ? '<img class="card-image" src="' + prod.image + '" alt="' + mEsc(prod.name) + '" loading="lazy">'
+      : '<div class="card-image-placeholder">' + mEsc(cat.icon) + '</div>';
 
-    const badgeHtml = prod.badge
-      ? `<span class="card-badge">${escapeHtml(prod.badge)}</span>`
+    var badgeHtml = prod.badge
+      ? '<span class="card-badge">' + mEsc(prod.badge) + '</span>'
       : '';
 
-    const descHtml = prod.description
-      ? `<p class="card-desc">${escapeHtml(prod.description)}</p>`
+    var descHtml = prod.description
+      ? '<p class="card-desc">' + mEsc(prod.description) + '</p>'
       : '';
 
-    card.innerHTML = `
-      <div class="card-image-wrap">
-        ${imageHtml}
-        ${badgeHtml}
-      </div>
-      <div class="card-body">
-        <h3 class="card-name">${escapeHtml(prod.name)}</h3>
-        ${descHtml}
-        <div class="card-footer">
-          <span class="card-price">${formatPrice(prod.price)}<span class="card-price-currency">₺</span></span>
-          <span class="card-tag">${escapeHtml(cat.name)}</span>
-        </div>
-      </div>
-    `;
+    card.innerHTML =
+      '<div class="card-image-wrap">' + imgHtml + badgeHtml + '</div>' +
+      '<div class="card-body">' +
+        '<h3 class="card-name">' + mEsc(prod.name) + '</h3>' +
+        descHtml +
+        '<div class="card-footer">' +
+          '<span class="card-price">' + Number(prod.price).toFixed(0) + '<span class="card-price-currency">₺</span></span>' +
+          '<span class="card-tag">' + mEsc(cat.name) + '</span>' +
+        '</div>' +
+      '</div>';
+
     return card;
   },
 
-  bindSearch() {
-    const input = document.getElementById('search-input');
-    if (!input) return;
-
-    input.addEventListener('input', () => {
-      this.searchQuery = input.value.trim().toLowerCase();
-      this.runSearch();
+  bindSearch: function() {
+    var inp  = document.getElementById('search-input');
+    var self = this;
+    if (!inp) return;
+    inp.addEventListener('input', function() {
+      self.query = inp.value.trim().toLowerCase();
+      self.runSearch();
     });
   },
 
-  runSearch() {
-    const q = this.searchQuery;
+  runSearch: function() {
+    var q = this.query;
+    var self = this;
 
     if (!q) {
-      // Arama temizlendi, kategori filtresine dön
-      document.querySelectorAll('.product-card').forEach(c => c.style.display = '');
-      this.filterByCategory(this.activeCategory, null);
-      document.querySelectorAll('.cat-tab').forEach(b => {
-        b.classList.toggle('active', b.dataset.catId === this.activeCategory);
-      });
+      document.querySelectorAll('.product-card').forEach(function(c) { c.style.display = ''; });
+      this.filterCat(this.activeCat, document.querySelector('.cat-tab[data-cat-id="' + this.activeCat + '"]'));
+      document.querySelectorAll('.cat-tab').forEach(function(b) { b.classList.toggle('active', b.dataset.catId === self.activeCat); });
       return;
     }
 
-    // Tüm kategorileri göster, ürünleri filtrele
-    document.querySelectorAll('.menu-section').forEach(s => s.classList.remove('hidden'));
-    document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.menu-section').forEach(function(s) { s.classList.remove('hidden'); });
+    document.querySelectorAll('.cat-tab').forEach(function(b) { b.classList.remove('active'); });
 
-    let anyVisible = false;
-    document.querySelectorAll('.product-card').forEach(card => {
-      const match = card.dataset.search.includes(q);
+    var anyVisible = false;
+    document.querySelectorAll('.product-card').forEach(function(card) {
+      var match = card.dataset.search.indexOf(q) !== -1;
       card.style.display = match ? '' : 'none';
       if (match) anyVisible = true;
     });
 
-    // Boş section'ları gizle
-    document.querySelectorAll('.menu-section').forEach(section => {
-      const visible = [...section.querySelectorAll('.product-card')].some(c => c.style.display !== 'none');
-      section.classList.toggle('hidden', !visible);
+    document.querySelectorAll('.menu-section').forEach(function(section) {
+      var hasVisible = false;
+      section.querySelectorAll('.product-card').forEach(function(c) { if (c.style.display !== 'none') hasVisible = true; });
+      section.classList.toggle('hidden', !hasVisible);
     });
 
-    const nr = document.getElementById('no-results');
+    var nr = document.getElementById('no-results');
     if (nr) nr.classList.toggle('visible', !anyVisible);
   },
 
-  checkEmpty() {
-    const nr = document.getElementById('no-results');
+  checkEmpty: function() {
+    var nr = document.getElementById('no-results');
     if (!nr) return;
-    const visibleSections = [...document.querySelectorAll('.menu-section')].filter(s => !s.classList.contains('hidden'));
-    nr.classList.toggle('visible', visibleSections.length === 0);
+    var visibleSecs = document.querySelectorAll('.menu-section:not(.hidden)');
+    nr.classList.toggle('visible', visibleSecs.length === 0);
   }
 };
 
-// ── BAŞLAT ────────────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => App.init());
+document.addEventListener('DOMContentLoaded', function() { Menu.init(); });

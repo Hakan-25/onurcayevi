@@ -1,359 +1,329 @@
 /* =============================================
-   ONUR ÇAY EVİ — ANA STİL DOSYASI
+   ONUR ÇAY EVİ — ANA STİL (BEYAZ/KREM TEMA)
    ============================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
 
-/* ---- CSS DEĞİŞKENLERİ ---- */
+/* ── TOKENS ── */
 :root {
-  --amber-900: #1a0a00;
-  --amber-800: #2d1600;
-  --amber-700: #4a2800;
-  --amber-600: #6b3a00;
-  --amber-500: #8b4e00;
-  --gold-400: #d4a017;
-  --gold-300: #e8b830;
-  --gold-200: #f5cc60;
-  --gold-100: #fde9a0;
-  --cream-100: #fdf6e3;
-  --cream-200: #f7edd0;
-  --text-primary: #1a0a00;
-  --text-secondary: #5c3d1e;
-  --text-light: #8b6540;
-  --white: #ffffff;
-  --glass-bg: rgba(255, 255, 255, 0.08);
-  --glass-border: rgba(212, 160, 23, 0.25);
-  --shadow-gold: 0 8px 32px rgba(212, 160, 23, 0.15);
-  --shadow-dark: 0 4px 24px rgba(0, 0, 0, 0.4);
-  --radius-sm: 8px;
+  /* Renkler */
+  --bg:           #fdf8f0;
+  --bg-card:      #ffffff;
+  --bg-soft:      #faf4ea;
+  --border:       #e8dcc8;
+  --border-light: #f0e8d8;
+
+  --amber:        #b5620a;
+  --amber-dark:   #8a4508;
+  --amber-light:  #d4820f;
+  --gold:         #c8922a;
+  --gold-light:   #e8b84b;
+
+  --text-900:     #1c1108;
+  --text-700:     #4a3520;
+  --text-500:     #7a6048;
+  --text-300:     #b09878;
+  --text-inv:     #ffffff;
+
+  --shadow-sm:    0 1px 4px rgba(0,0,0,0.06);
+  --shadow-md:    0 4px 16px rgba(0,0,0,0.09);
+  --shadow-lg:    0 12px 40px rgba(0,0,0,0.12);
+  --shadow-amber: 0 8px 32px rgba(181,98,10,0.18);
+
+  --radius-sm: 10px;
   --radius-md: 16px;
-  --radius-lg: 24px;
+  --radius-lg: 22px;
   --radius-xl: 32px;
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  --ease: cubic-bezier(0.4,0,0.2,1);
+  --t:    all 0.25s var(--ease);
 }
 
-/* ---- RESET & BASE ---- */
-*, *::before, *::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
+/* ── RESET ── */
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
 
 body {
   font-family: 'Inter', sans-serif;
-  background: var(--amber-900);
-  color: var(--white);
+  background: var(--bg);
+  color: var(--text-900);
   min-height: 100vh;
   overflow-x: hidden;
 }
 
-/* ---- BACKGROUND PATTERN ---- */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background:
-    radial-gradient(ellipse at 20% 20%, rgba(212, 160, 23, 0.12) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 80%, rgba(139, 78, 0, 0.2) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 50%, rgba(45, 22, 0, 0.8) 0%, transparent 100%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ---- HEADER / HERO ---- */
+/* ════════════════════════════════════════
+   HEADER / HERO
+   ════════════════════════════════════════ */
 .site-header {
   position: relative;
   z-index: 10;
-  text-align: center;
-  padding: 0;
-  overflow: hidden;
 }
 
 .hero-section {
+  background: linear-gradient(160deg, #3d1c06 0%, #6b3310 40%, #4a2208 100%);
+  padding: 56px 24px 48px;
+  text-align: center;
   position: relative;
-  min-height: 320px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 60px 24px 40px;
-  background: linear-gradient(180deg,
-    rgba(26, 10, 0, 0) 0%,
-    rgba(26, 10, 0, 0.6) 100%
-  );
+  overflow: hidden;
 }
 
-.hero-bg {
+/* Süsleme dokusu */
+.hero-section::before {
+  content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #2d1600 0%, #1a0a00 40%, #3d2000 100%);
-  z-index: -1;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(212,160,23,0.15) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 30%, rgba(255,200,80,0.08) 0%, transparent 45%);
+  pointer-events: none;
 }
 
-.hero-pattern {
+.hero-section::after {
+  content: '';
   position: absolute;
-  inset: 0;
-  opacity: 0.05;
-  background-image: repeating-linear-gradient(
-    45deg,
-    var(--gold-400) 0px,
-    var(--gold-400) 1px,
-    transparent 1px,
-    transparent 60px
-  );
-  z-index: -1;
+  bottom: -1px;
+  left: 0; right: 0;
+  height: 40px;
+  background: var(--bg);
+  clip-path: ellipse(55% 100% at 50% 100%);
 }
 
 .logo-wrapper {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
-  animation: fadeInDown 0.8s ease;
+  gap: 10px;
+  animation: fadeDown 0.7s var(--ease) both;
 }
 
 .logo-icon {
-  width: 90px;
-  height: 90px;
-  background: linear-gradient(135deg, var(--gold-400), var(--gold-200));
+  width: 84px;
+  height: 84px;
+  background: linear-gradient(135deg, #d4a017, #f5cc60);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 42px;
-  box-shadow: 0 0 40px rgba(212, 160, 23, 0.4), 0 0 80px rgba(212, 160, 23, 0.15);
-  animation: pulse-glow 3s ease-in-out infinite;
-}
-
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 40px rgba(212, 160, 23, 0.4), 0 0 80px rgba(212, 160, 23, 0.15); }
-  50% { box-shadow: 0 0 60px rgba(212, 160, 23, 0.6), 0 0 120px rgba(212, 160, 23, 0.25); }
+  font-size: 40px;
+  box-shadow: 0 0 0 6px rgba(212,160,23,0.2), 0 8px 32px rgba(0,0,0,0.3);
+  margin-bottom: 4px;
 }
 
 .brand-name {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(28px, 6vw, 48px);
+  font-size: clamp(26px, 5vw, 44px);
   font-weight: 700;
-  color: var(--gold-200);
-  letter-spacing: 2px;
-  text-shadow: 0 2px 20px rgba(212, 160, 23, 0.5);
+  color: #fff;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.3);
   line-height: 1.1;
 }
 
-.brand-subtitle {
-  font-size: 13px;
-  font-weight: 400;
-  letter-spacing: 5px;
-  text-transform: uppercase;
-  color: var(--gold-300);
-  opacity: 0.8;
+.brand-sub-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(253,220,120,0.85);
 }
 
-.hero-divider {
-  width: 120px;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--gold-400), transparent);
-  margin: 8px auto;
+.brand-sub-line hr {
+  width: 40px;
+  border: none;
+  border-top: 1px solid rgba(253,220,120,0.4);
+}
+
+.brand-subtitle {
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  font-weight: 400;
 }
 
 .hero-info {
   display: flex;
-  gap: 24px;
-  margin-top: 16px;
-  animation: fadeInUp 0.8s ease 0.3s both;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px 24px;
+  margin-top: 8px;
 }
 
 .hero-info-item {
-  display: flex;
+  display: none;
   align-items: center;
   gap: 6px;
-  font-size: 12px;
-  color: rgba(253, 233, 160, 0.7);
-  letter-spacing: 0.5px;
+  font-size: 13px;
+  color: rgba(253,220,120,0.75);
 }
 
-.hero-info-item span:first-child {
-  font-size: 14px;
-}
-
-/* ---- SEARCH BAR ---- */
+/* ════════════════════════════════════════
+   ARAMA
+   ════════════════════════════════════════ */
 .search-wrapper {
-  position: relative;
-  z-index: 10;
-  max-width: 500px;
-  margin: -20px auto 32px;
+  max-width: 520px;
+  margin: -1px auto 28px;
   padding: 0 20px;
-  animation: fadeInUp 0.8s ease 0.4s both;
+  position: relative;
+  z-index: 5;
+  animation: fadeUp 0.6s var(--ease) 0.2s both;
 }
 
 .search-box {
-  width: 100%;
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--glass-border);
+  gap: 10px;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
   border-radius: 50px;
-  padding: 14px 20px;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: var(--shadow-gold), inset 0 1px 0 rgba(255,255,255,0.05);
-  transition: var(--transition);
+  padding: 13px 20px;
+  box-shadow: var(--shadow-md);
+  transition: var(--t);
 }
 
 .search-box:focus-within {
-  border-color: var(--gold-400);
-  box-shadow: 0 0 0 3px rgba(212, 160, 23, 0.15), var(--shadow-gold);
+  border-color: var(--amber);
+  box-shadow: 0 0 0 3px rgba(181,98,10,0.1), var(--shadow-md);
 }
 
-.search-icon {
-  font-size: 18px;
-  margin-right: 12px;
-  opacity: 0.6;
-}
+.search-icon { font-size: 16px; opacity: 0.45; flex-shrink: 0; }
 
 .search-input {
   flex: 1;
-  background: none;
   border: none;
   outline: none;
-  color: var(--white);
+  background: none;
   font-family: 'Inter', sans-serif;
   font-size: 15px;
+  color: var(--text-900);
 }
 
-.search-input::placeholder {
-  color: rgba(253, 233, 160, 0.4);
-}
+.search-input::placeholder { color: var(--text-300); }
 
-/* ---- MAIN CONTENT ---- */
+/* ════════════════════════════════════════
+   ANA İÇERİK
+   ════════════════════════════════════════ */
 main {
-  position: relative;
-  z-index: 5;
   max-width: 1100px;
   margin: 0 auto;
   padding: 0 16px 80px;
+  position: relative;
+  z-index: 1;
 }
 
-/* ---- CATEGORY TABS ---- */
+/* ════════════════════════════════════════
+   KATEGORİ SEKMELERİ
+   ════════════════════════════════════════ */
 .category-nav {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   overflow-x: auto;
-  padding: 0 4px 16px;
+  padding: 0 2px 14px;
   scrollbar-width: none;
-  -ms-overflow-style: none;
-  margin-bottom: 32px;
-  animation: fadeInUp 0.6s ease 0.5s both;
+  margin-bottom: 28px;
+  animation: fadeUp 0.5s var(--ease) 0.3s both;
 }
-
 .category-nav::-webkit-scrollbar { display: none; }
 
 .cat-tab {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
+  gap: 6px;
+  padding: 9px 18px;
   border-radius: 50px;
-  border: 1px solid var(--glass-border);
-  background: var(--glass-bg);
-  color: rgba(253, 233, 160, 0.7);
+  border: 1.5px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-500);
   font-family: 'Inter', sans-serif;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
   white-space: nowrap;
-  transition: var(--transition);
-  backdrop-filter: blur(10px);
+  transition: var(--t);
+  box-shadow: var(--shadow-sm);
 }
 
 .cat-tab:hover {
-  border-color: var(--gold-400);
-  color: var(--gold-200);
-  background: rgba(212, 160, 23, 0.1);
-  transform: translateY(-2px);
+  border-color: var(--amber);
+  color: var(--amber);
+  background: #fff8f0;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
 .cat-tab.active {
-  background: linear-gradient(135deg, var(--gold-400), var(--gold-300));
-  border-color: transparent;
-  color: var(--amber-900);
+  background: var(--amber);
+  border-color: var(--amber);
+  color: #fff;
   font-weight: 600;
-  box-shadow: 0 4px 20px rgba(212, 160, 23, 0.35);
+  box-shadow: var(--shadow-amber);
 }
 
-.cat-tab .cat-icon {
-  font-size: 16px;
-}
-
-.cat-tab.all-tab .cat-icon {
-  font-size: 14px;
-}
-
-/* ---- SECTION TITLE ---- */
+/* ════════════════════════════════════════
+   BÖLÜM BAŞLIĞI
+   ════════════════════════════════════════ */
 .section-title {
   font-family: 'Playfair Display', serif;
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 700;
-  color: var(--gold-200);
-  margin-bottom: 20px;
+  color: var(--text-900);
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .section-title::after {
   content: '';
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, var(--glass-border), transparent);
+  background: var(--border);
 }
 
-/* ---- MENU SECTION ---- */
+/* ════════════════════════════════════════
+   MENÜ BÖLÜMÜ
+   ════════════════════════════════════════ */
 .menu-section {
-  margin-bottom: 48px;
-  animation: fadeInUp 0.6s ease both;
+  margin-bottom: 40px;
+  animation: fadeUp 0.5s var(--ease) both;
 }
 
-.menu-section.hidden {
-  display: none;
-}
+.menu-section.hidden { display: none; }
 
-/* ---- PRODUCT GRID ---- */
+/* ════════════════════════════════════════
+   ÜRÜN GRID
+   ════════════════════════════════════════ */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
 }
 
-/* ---- PRODUCT CARD ---- */
+/* ════════════════════════════════════════
+   ÜRÜN KARTI
+   ════════════════════════════════════════ */
 .product-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--glass-border);
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-light);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  transition: var(--transition);
-  cursor: default;
-  animation: fadeInUp 0.5s ease both;
-  backdrop-filter: blur(10px);
+  transition: var(--t);
+  box-shadow: var(--shadow-sm);
+  animation: fadeUp 0.4s var(--ease) both;
 }
 
 .product-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(212, 160, 23, 0.45);
-  box-shadow: var(--shadow-gold), 0 20px 60px rgba(0,0,0,0.4);
-  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-4px);
+  border-color: var(--border);
+  box-shadow: var(--shadow-lg);
 }
 
 .card-image-wrap {
   position: relative;
   width: 100%;
-  padding-top: 65%;
+  padding-top: 62%;
   overflow: hidden;
-  background: linear-gradient(135deg, var(--amber-800), var(--amber-700));
+  background: var(--bg-soft);
 }
 
 .card-image {
@@ -362,56 +332,54 @@ main {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  transition: transform 0.5s var(--ease);
 }
 
-.product-card:hover .card-image {
-  transform: scale(1.07);
-}
+.product-card:hover .card-image { transform: scale(1.06); }
 
 .card-image-placeholder {
   position: absolute;
   inset: 0;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 52px;
-  gap: 8px;
-  background: linear-gradient(135deg, rgba(212, 160, 23, 0.1), rgba(139, 78, 0, 0.2));
+  font-size: 48px;
+  background: linear-gradient(135deg, #fdf0dc, #f5e4c0);
+  color: var(--amber);
 }
 
 .card-badge {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  background: linear-gradient(135deg, var(--gold-400), var(--gold-300));
-  color: var(--amber-900);
-  font-size: 11px;
+  top: 10px;
+  right: 10px;
+  background: var(--amber);
+  color: #fff;
+  font-size: 10px;
   font-weight: 700;
-  padding: 4px 10px;
+  padding: 3px 10px;
   border-radius: 20px;
   letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(181,98,10,0.3);
 }
 
 .card-body {
-  padding: 18px 20px 20px;
+  padding: 16px 18px 18px;
 }
 
 .card-name {
   font-family: 'Playfair Display', serif;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 600;
-  color: var(--white);
-  margin-bottom: 6px;
+  color: var(--text-900);
+  margin-bottom: 5px;
   line-height: 1.3;
 }
 
 .card-desc {
   font-size: 13px;
-  color: rgba(253, 233, 160, 0.55);
+  color: var(--text-500);
   line-height: 1.5;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -422,224 +390,179 @@ main {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-light);
 }
 
 .card-price {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
-  color: var(--gold-300);
+  color: var(--amber);
   font-family: 'Playfair Display', serif;
 }
 
-.card-price-currency {
-  font-size: 14px;
-  font-weight: 500;
-  margin-left: 2px;
-}
+.card-price-currency { font-size: 13px; font-weight: 600; }
 
 .card-tag {
   font-size: 11px;
-  padding: 4px 12px;
+  padding: 3px 10px;
   border-radius: 20px;
-  border: 1px solid var(--glass-border);
-  color: rgba(253, 233, 160, 0.5);
-  letter-spacing: 0.5px;
+  background: var(--bg-soft);
+  color: var(--text-500);
+  border: 1px solid var(--border);
 }
 
-/* ---- EMPTY STATE ---- */
-.empty-state {
-  text-align: center;
-  padding: 80px 24px;
-  color: rgba(253, 233, 160, 0.4);
+/* ════════════════════════════════════════
+   BOŞ DURUM
+   ════════════════════════════════════════ */
+#no-results {
   display: none;
-}
-
-.empty-state.visible {
-  display: block;
-}
-
-.empty-state-icon {
-  font-size: 64px;
-  margin-bottom: 16px;
-  opacity: 0.5;
-}
-
-.empty-state h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 22px;
-  margin-bottom: 8px;
-  color: rgba(253, 233, 160, 0.6);
-}
-
-/* ---- FOOTER ---- */
-.site-footer {
-  position: relative;
-  z-index: 5;
   text-align: center;
-  padding: 32px 24px 48px;
-  border-top: 1px solid var(--glass-border);
-  background: linear-gradient(0deg, rgba(26, 10, 0, 0.8), transparent);
+  padding: 64px 24px;
+  color: var(--text-300);
+}
+
+#no-results.visible { display: block; }
+#no-results .empty-icon { font-size: 56px; margin-bottom: 12px; opacity: 0.5; }
+#no-results h3 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--text-500); margin-bottom: 6px; }
+
+/* ════════════════════════════════════════
+   FOOTER
+   ════════════════════════════════════════ */
+.site-footer {
+  background: #2d1608;
+  color: rgba(255,255,255,0.7);
+  text-align: center;
+  padding: 32px 24px;
 }
 
 .footer-brand {
   font-family: 'Playfair Display', serif;
-  font-size: 20px;
-  color: var(--gold-300);
-  margin-bottom: 12px;
+  font-size: 18px;
+  color: #f5cc60;
+  margin-bottom: 10px;
 }
 
 .footer-contact {
   display: flex;
-  justify-content: center;
-  gap: 24px;
   flex-wrap: wrap;
-  margin-bottom: 16px;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 12px;
 }
 
-.footer-contact a {
-  color: rgba(253, 233, 160, 0.6);
-  text-decoration: none;
+.footer-contact a,
+.footer-contact span {
   font-size: 13px;
+  color: rgba(255,255,255,0.55);
+  text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 6px;
-  transition: var(--transition);
+  gap: 5px;
+  transition: var(--t);
 }
 
-.footer-contact a:hover {
-  color: var(--gold-300);
-}
+.footer-contact a:hover { color: #f5cc60; }
 
 .footer-copy {
   font-size: 11px;
-  color: rgba(255,255,255,0.2);
-  letter-spacing: 1px;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 0.5px;
 }
 
-/* ---- FLOATING ADMIN BTN ---- */
+/* ════════════════════════════════════════
+   ADMİN BUTONU (köşe)
+   ════════════════════════════════════════ */
 .admin-float-btn {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
+  bottom: 20px;
+  right: 20px;
   z-index: 100;
-  width: 50px;
-  height: 50px;
-  background: rgba(45, 22, 0, 0.9);
-  border: 1px solid var(--glass-border);
+  width: 44px;
+  height: 44px;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 18px;
   cursor: pointer;
   text-decoration: none;
-  backdrop-filter: blur(20px);
-  transition: var(--transition);
-  box-shadow: var(--shadow-dark);
+  box-shadow: var(--shadow-md);
+  transition: var(--t);
+  opacity: 0.55;
 }
 
 .admin-float-btn:hover {
-  background: rgba(212, 160, 23, 0.2);
-  border-color: var(--gold-400);
-  transform: scale(1.1);
+  opacity: 1;
+  border-color: var(--amber);
+  box-shadow: var(--shadow-amber);
+  transform: scale(1.08);
 }
 
-/* ---- ANIMATIONS ---- */
-@keyframes fadeInDown {
-  from { opacity: 0; transform: translateY(-30px); }
-  to { opacity: 1; transform: translateY(0); }
+/* ════════════════════════════════════════
+   ANİMASYONLAR
+   ════════════════════════════════════════ */
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ---- SCROLLBAR ---- */
+/* ════════════════════════════════════════
+   SCROLLBAR
+   ════════════════════════════════════════ */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--amber-900); }
-::-webkit-scrollbar-thumb { background: var(--amber-600); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--gold-400); }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--amber); }
 
-/* ---- TOAST NOTIFICATION ---- */
-.toast {
+/* ════════════════════════════════════════
+   TOAST
+   ════════════════════════════════════════ */
+.menu-toast {
   position: fixed;
-  top: 24px;
+  top: 20px;
   left: 50%;
   transform: translateX(-50%) translateY(-80px);
-  background: linear-gradient(135deg, var(--gold-400), var(--gold-300));
-  color: var(--amber-900);
-  padding: 12px 24px;
+  background: var(--amber);
+  color: #fff;
+  padding: 11px 22px;
   border-radius: 50px;
   font-size: 14px;
   font-weight: 600;
   z-index: 9999;
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: 0 8px 32px rgba(212, 160, 23, 0.4);
+  box-shadow: var(--shadow-amber);
+  transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  white-space: nowrap;
 }
 
-.toast.show {
-  transform: translateX(-50%) translateY(0);
-}
+.menu-toast.show { transform: translateX(-50%) translateY(0); }
 
-/* ---- RESPONSIVE ---- */
-@media (max-width: 640px) {
-  .hero-section {
-    min-height: 260px;
-    padding: 48px 16px 32px;
-  }
-
-  .logo-icon {
-    width: 72px;
-    height: 72px;
-    font-size: 34px;
-  }
+/* ════════════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════════════ */
+@media (max-width: 600px) {
+  .hero-section { padding: 44px 16px 40px; }
+  .logo-icon { width: 70px; height: 70px; font-size: 34px; }
 
   .product-grid {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 14px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
   }
 
-  .card-name { font-size: 15px; }
-  .card-price { font-size: 18px; }
-  .card-body { padding: 14px 14px 16px; }
-
-  .hero-info {
-    flex-direction: column;
-    gap: 8px;
-    align-items: center;
-  }
-
-  .category-nav {
-    padding-bottom: 12px;
-  }
-
-  .admin-float-btn {
-    bottom: 16px;
-    right: 16px;
-  }
+  .card-name { font-size: 14px; }
+  .card-desc { font-size: 12px; }
+  .card-body { padding: 12px 13px 14px; }
+  .card-price { font-size: 17px; }
+  .card-image-wrap { padding-top: 68%; }
 }
 
 @media (min-width: 768px) {
-  .product-grid {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  }
-}
-
-@media (min-width: 1024px) {
-  .product-grid {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  }
-}
-
-/* ---- NO RESULTS ---- */
-#no-results {
-  display: none;
-  text-align: center;
-  padding: 60px 24px;
-  color: rgba(253, 233, 160, 0.4);
-}
-
-#no-results.visible {
-  display: block;
+  .product-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
 }

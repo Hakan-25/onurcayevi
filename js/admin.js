@@ -1,674 +1,671 @@
 /* =============================================
-   ONUR ÇAY EVİ — ADMİN PANEL JAVASCRIPT
+   ONUR ÇAY EVİ — ADMİN PANEL JS
    ============================================= */
 
-'use strict';
-
 // ── KONFİGÜRASYON ─────────────────────────────────────────────────────────
-const ADMIN_CONFIG = {
-  username: 'admin',
-  password: 'onur2024'
-};
+var ADMIN_PASS = 'onur2024';
+var ADMIN_USER = 'admin';
 
-// ── VERİ KATMANI ──────────────────────────────────────────────────────────
-const DB = {
-  KEY_SETTINGS: 'ocayevi_settings',
-  KEY_CATS:     'ocayevi_categories',
-  KEY_PRODUCTS: 'ocayevi_products',
-  KEY_AUTH:     'ocayevi_auth',
-
-  defaultSettings: {
-    name:     'Onur Çay Evi',
-    subtitle: 'Geleneksel Türk Çayı',
-    phone:    '',
-    address:  '',
-    hours:    '',
-    logo:     '',
-    cover:    ''
+// ── VERİ YARDIMCISI ───────────────────────────────────────────────────────
+var Store = {
+  K: {
+    settings:  'ocayevi_settings',
+    cats:      'ocayevi_categories',
+    products:  'ocayevi_products'
   },
 
-  defaultCategories: [
-    { id: 'cat_1', name: 'Çaylar',            icon: '🍵', order: 1 },
-    { id: 'cat_2', name: 'Kahveler',           icon: '☕', order: 2 },
-    { id: 'cat_3', name: 'Soğuk İçecekler',   icon: '🥤', order: 3 },
-    { id: 'cat_4', name: 'Atıştırmalıklar',   icon: '🍪', order: 4 }
+  defaultSettings: {
+    name: 'Onur Çay Evi', subtitle: 'Geleneksel Türk Çayı',
+    phone: '', address: '', hours: '', logo: ''
+  },
+
+  defaultCats: [
+    { id: 'cat_1', name: 'Çaylar',          icon: '🍵', order: 1 },
+    { id: 'cat_2', name: 'Kahveler',         icon: '☕', order: 2 },
+    { id: 'cat_3', name: 'Soğuk İçecekler', icon: '🥤', order: 3 },
+    { id: 'cat_4', name: 'Atıştırmalıklar', icon: '🍪', order: 4 }
   ],
 
   defaultProducts: [
-    { id:'p_1',  categoryId:'cat_1', name:'Türk Çayı',        price:15, description:'Doğu Karadeniz\'den özel seçim, demlik çayımız.', image:'', badge:'' },
-    { id:'p_2',  categoryId:'cat_1', name:'Bitki Çayı',        price:25, description:'Nane, papatya, ıhlamur karışımı aromalı çay.', image:'', badge:'Popüler' },
-    { id:'p_3',  categoryId:'cat_1', name:'Earl Grey',          price:30, description:'Bergamot aromalı özel çay karışımı.', image:'', badge:'' },
-    { id:'p_4',  categoryId:'cat_1', name:'Yeşil Çay',          price:25, description:'Japon tarzı hafif yeşil çay, antioksidan zengin.', image:'', badge:'' },
-    { id:'p_5',  categoryId:'cat_2', name:'Türk Kahvesi',        price:35, description:'Geleneksel yöntemle hazırlanan köpüklü Türk kahvesi.', image:'', badge:'Özel' },
-    { id:'p_6',  categoryId:'cat_2', name:'Filtre Kahve',        price:40, description:'Öğütülmüş taze filtre kahve, sade veya sütlü.', image:'', badge:'' },
-    { id:'p_7',  categoryId:'cat_2', name:'Sütlü Kahve',         price:45, description:'Kremalı köpüklü süt ve espresso karışımı.', image:'', badge:'Popüler' },
-    { id:'p_8',  categoryId:'cat_3', name:'Limonata',            price:35, description:'Taze sıkılmış limon, nane ile tazeleyici limonata.', image:'', badge:'' },
-    { id:'p_9',  categoryId:'cat_3', name:'Ayran',               price:20, description:'Ev yapımı, tuzsuz ya da tuzlu seçenekli ayran.', image:'', badge:'' },
-    { id:'p_10', categoryId:'cat_3', name:'Meyve Suyu',          price:30, description:'Taze portakal, elma veya vişne meyve suyu.', image:'', badge:'' },
-    { id:'p_11', categoryId:'cat_4', name:'Simit',               price:15, description:'Taze fırın simidi, susam kaplı geleneksel lezzet.', image:'', badge:'' },
-    { id:'p_12', categoryId:'cat_4', name:'Poğaça',              price:20, description:'Peynirli ya da zeytinli ev yapımı poğaça.', image:'', badge:'Popüler' },
-    { id:'p_13', categoryId:'cat_4', name:'Kurabiye',            price:18, description:'Çeşitli ev yapımı kurabiyeler, günlük taze.', image:'', badge:'' }
+    { id:'p_1',  categoryId:'cat_1', name:'Türk Çayı',       price:15, description:'Doğu Karadeniz\'den özel seçim demlik çayımız.', image:'', badge:'' },
+    { id:'p_2',  categoryId:'cat_1', name:'Bitki Çayı',       price:25, description:'Nane, papatya, ıhlamur karışımı aromalı çay.', image:'', badge:'Popüler' },
+    { id:'p_3',  categoryId:'cat_1', name:'Earl Grey',         price:30, description:'Bergamot aromalı özel çay karışımı.', image:'', badge:'' },
+    { id:'p_4',  categoryId:'cat_1', name:'Yeşil Çay',         price:25, description:'Japon tarzı hafif yeşil çay.', image:'', badge:'' },
+    { id:'p_5',  categoryId:'cat_2', name:'Türk Kahvesi',       price:35, description:'Geleneksel yöntemle hazırlanan köpüklü Türk kahvesi.', image:'', badge:'Özel' },
+    { id:'p_6',  categoryId:'cat_2', name:'Filtre Kahve',       price:40, description:'Öğütülmüş taze filtre kahve, sade veya sütlü.', image:'', badge:'' },
+    { id:'p_7',  categoryId:'cat_2', name:'Sütlü Kahve',        price:45, description:'Kremalı köpüklü süt ve espresso karışımı.', image:'', badge:'Popüler' },
+    { id:'p_8',  categoryId:'cat_3', name:'Limonata',           price:35, description:'Taze sıkılmış limon, nane ile limonata.', image:'', badge:'' },
+    { id:'p_9',  categoryId:'cat_3', name:'Ayran',              price:20, description:'Ev yapımı tuzsuz ya da tuzlu ayran.', image:'', badge:'' },
+    { id:'p_10', categoryId:'cat_3', name:'Meyve Suyu',         price:30, description:'Portakal, elma veya vişne meyve suyu.', image:'', badge:'' },
+    { id:'p_11', categoryId:'cat_4', name:'Simit',              price:15, description:'Taze fırın simidi, susam kaplı.', image:'', badge:'' },
+    { id:'p_12', categoryId:'cat_4', name:'Poğaça',             price:20, description:'Peynirli ya da zeytinli ev yapımı poğaça.', image:'', badge:'Popüler' },
+    { id:'p_13', categoryId:'cat_4', name:'Kurabiye',           price:18, description:'Çeşitli ev yapımı kurabiyeler, günlük taze.', image:'', badge:'' }
   ],
 
-  load(key, def) {
-    try { return JSON.parse(localStorage.getItem(key)) || def; }
-    catch { return def; }
+  get: function(key, def) {
+    try {
+      var raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : def;
+    } catch(e) { return def; }
   },
-  save(key, data) { localStorage.setItem(key, JSON.stringify(data)); },
 
-  getSettings()   { return this.load(this.KEY_SETTINGS, {...this.defaultSettings}); },
-  getCategories() { return this.load(this.KEY_CATS,     [...this.defaultCategories]); },
-  getProducts()   { return this.load(this.KEY_PRODUCTS, [...this.defaultProducts]); },
+  set: function(key, val) {
+    try { localStorage.setItem(key, JSON.stringify(val)); } catch(e) {}
+  },
 
-  saveSettings(d)   { this.save(this.KEY_SETTINGS, d); },
-  saveCategories(d) { this.save(this.KEY_CATS, d); },
-  saveProducts(d)   { this.save(this.KEY_PRODUCTS, d); }
+  getSettings:  function() { return this.get(this.K.settings, Object.assign({}, this.defaultSettings)); },
+  getCats:      function() { return this.get(this.K.cats,     this.defaultCats.slice()); },
+  getProducts:  function() { return this.get(this.K.products, this.defaultProducts.slice()); },
+  saveSettings: function(d) { this.set(this.K.settings, d); },
+  saveCats:     function(d) { this.set(this.K.cats, d); },
+  saveProducts: function(d) { this.set(this.K.products, d); }
 };
 
-// ── YARDIMCI ──────────────────────────────────────────────────────────────
+// ── YARDIMCILAR ───────────────────────────────────────────────────────────
 function uid() {
-  return 'id_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+  return 'id_' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
 }
 
-function escHtml(s) {
-  const d = document.createElement('div');
+function esc(s) {
+  var d = document.createElement('div');
   d.textContent = s || '';
   return d.innerHTML;
 }
 
-function showToast(msg, type = 'success') {
-  let t = document.getElementById('admin-toast');
-  if (!t) {
-    t = document.createElement('div');
-    t.id = 'admin-toast';
-    t.className = 'toast';
-    document.body.appendChild(t);
+function getEl(id) { return document.getElementById(id); }
+function getVal(id) { var el = getEl(id); return el ? el.value.trim() : ''; }
+function setVal(id, v) { var el = getEl(id); if (el) el.value = v || ''; }
+
+function toast(msg, type) {
+  type = type || 'success';
+  var el = getEl('admin-toast');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'admin-toast';
+    el.className = 'toast';
+    document.body.appendChild(el);
   }
-  t.className = `toast ${type}`;
-  t.innerHTML = `<span>${type === 'success' ? '✅' : '❌'}</span> ${escHtml(msg)}`;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
+  el.className = 'toast ' + type;
+  el.innerHTML = (type === 'success' ? '✅' : '❌') + ' ' + esc(msg);
+  el.classList.add('show');
+  setTimeout(function() { el.classList.remove('show'); }, 3000);
 }
 
-function fileToBase64(file) {
-  return new Promise((res, rej) => {
-    const r = new FileReader();
-    r.onload = e => res(e.target.result);
+function fileToB64(file) {
+  return new Promise(function(res, rej) {
+    var r = new FileReader();
+    r.onload = function(e) { res(e.target.result); };
     r.onerror = rej;
     r.readAsDataURL(file);
   });
 }
 
 // ── AUTH ──────────────────────────────────────────────────────────────────
-const Auth = {
-  isLoggedIn() { return sessionStorage.getItem(DB.KEY_AUTH) === 'true'; },
-  login()      { sessionStorage.setItem(DB.KEY_AUTH, 'true'); },
-  logout()     { sessionStorage.removeItem(DB.KEY_AUTH); }
+function isLoggedIn()  { return sessionStorage.getItem('ocayevi_auth') === '1'; }
+function doLogin()     { sessionStorage.setItem('ocayevi_auth', '1'); }
+function doLogout()    { sessionStorage.removeItem('ocayevi_auth'); }
+
+// ── GÖSTERİM ──────────────────────────────────────────────────────────────
+function showLoginPage() {
+  getEl('login-page').style.display  = 'flex';
+  getEl('admin-page').style.display  = 'none';
+  getEl('admin-page').classList.remove('active');
+}
+
+function showAdminPage() {
+  getEl('login-page').style.display  = 'none';
+  getEl('admin-page').style.display  = 'flex';
+  getEl('admin-page').classList.add('active');
+  loadAdminData();
+  bindNav();
+  bindSidebar();
+  showPanel('dashboard');
+}
+
+// ── VERİ ──────────────────────────────────────────────────────────────────
+var settings, cats, products, editingProdId;
+
+function loadAdminData() {
+  settings = Store.getSettings();
+  cats     = Store.getCats();
+  products = Store.getProducts();
+}
+
+// ── PANEL ─────────────────────────────────────────────────────────────────
+var PANEL_TITLES = {
+  dashboard: 'Dashboard',
+  products:  'Ürün Yönetimi',
+  categories:'Kategori Yönetimi',
+  settings:  'Ayarlar',
+  qr:        'QR Kod'
 };
 
-// ── ADMIN UYGULAMASI ─────────────────────────────────────────────────────
-const Admin = {
-  settings:    null,
-  categories:  [],
-  products:    [],
-  editingProd: null,
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.nav-item[data-panel]').forEach(function(b) { b.classList.remove('active'); });
 
-  /* ---- INIT ---- */
-  init() {
-    if (Auth.isLoggedIn()) {
-      this.showAdmin();
-    } else {
-      this.showLogin();
-    }
-    this.bindLoginForm();
-  },
+  var panel = getEl('panel-' + id);
+  if (panel) panel.classList.add('active');
 
-  showLogin() {
-    document.getElementById('login-page').style.display = 'flex';
-    document.getElementById('admin-page').classList.remove('active');
-  },
+  var navBtn = document.querySelector('.nav-item[data-panel="' + id + '"]');
+  if (navBtn) navBtn.classList.add('active');
 
-  showAdmin() {
-    document.getElementById('login-page').style.display = 'none';
-    document.getElementById('admin-page').classList.add('active');
-    this.loadData();
-    this.bindNav();
-    this.bindSidebar();
-    this.showPanel('dashboard');
-  },
+  var tt = getEl('topbar-title');
+  if (tt) tt.textContent = PANEL_TITLES[id] || '';
 
-  loadData() {
-    this.settings   = DB.getSettings();
-    this.categories = DB.getCategories();
-    this.products   = DB.getProducts();
-  },
+  if (id === 'dashboard')  renderDashboard();
+  if (id === 'products')   renderProducts();
+  if (id === 'categories') renderCategories();
+  if (id === 'settings')   renderSettings();
+  if (id === 'qr')         renderQR();
+}
 
-  /* ---- LOGIN ---- */
-  bindLoginForm() {
-    const form = document.getElementById('login-form');
-    if (!form) return;
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      const user = document.getElementById('login-user').value.trim();
-      const pass = document.getElementById('login-pass').value;
-      const err  = document.getElementById('login-error');
-
-      if (user === ADMIN_CONFIG.username && pass === ADMIN_CONFIG.password) {
-        Auth.login();
-        this.showAdmin();
-      } else {
-        err.classList.add('show');
-        err.textContent = 'Kullanıcı adı veya şifre hatalı.';
-        setTimeout(() => err.classList.remove('show'), 3000);
-      }
+// ── BAĞLAMALAR ────────────────────────────────────────────────────────────
+function bindNav() {
+  document.querySelectorAll('.nav-item[data-panel]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      showPanel(btn.dataset.panel);
+      closeSidebar();
     });
-  },
+  });
 
-  /* ---- NAVIGATION ---- */
-  bindNav() {
-    document.querySelectorAll('.nav-item[data-panel]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        this.showPanel(btn.dataset.panel);
-        this.closeSidebar();
-      });
-    });
+  var logoutBtn = getEl('logout-btn');
+  if (logoutBtn) logoutBtn.addEventListener('click', function() {
+    doLogout();
+    showLoginPage();
+  });
 
-    document.getElementById('logout-btn')?.addEventListener('click', () => {
-      Auth.logout();
-      this.showLogin();
-    });
+  var gotoMenu = getEl('goto-menu-btn');
+  if (gotoMenu) gotoMenu.addEventListener('click', function() {
+    window.open('index.html', '_blank');
+  });
+}
 
-    // Menüye git
-    document.getElementById('goto-menu-btn')?.addEventListener('click', () => {
-      window.open('index.html', '_blank');
-    });
-  },
+function bindSidebar() {
+  var ham     = getEl('hamburger-btn');
+  var overlay = getEl('sidebar-overlay');
+  var sidebar = getEl('admin-sidebar');
+  if (ham) ham.addEventListener('click', function() {
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('show');
+  });
+  if (overlay) overlay.addEventListener('click', closeSidebar);
+}
 
-  bindSidebar() {
-    const ham = document.getElementById('hamburger-btn');
-    const overlay = document.getElementById('sidebar-overlay');
-    ham?.addEventListener('click', () => {
-      document.getElementById('admin-sidebar').classList.toggle('open');
-      overlay?.classList.toggle('show');
-    });
-    overlay?.addEventListener('click', () => this.closeSidebar());
-  },
+function closeSidebar() {
+  var s = getEl('admin-sidebar');
+  var o = getEl('sidebar-overlay');
+  if (s) s.classList.remove('open');
+  if (o) o.classList.remove('show');
+}
 
-  closeSidebar() {
-    document.getElementById('admin-sidebar')?.classList.remove('open');
-    document.getElementById('sidebar-overlay')?.classList.remove('show');
-  },
+// ════════════════════════════════════════════
+// DASHBOARD
+// ════════════════════════════════════════════
+function renderDashboard() {
+  var elP = getEl('stat-products');   if (elP) elP.textContent = products.length;
+  var elC = getEl('stat-categories'); if (elC) elC.textContent = cats.length;
+  var elN = getEl('stat-name');       if (elN) elN.textContent = settings.name;
 
-  showPanel(id) {
-    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  var tbody = getEl('recent-products-body');
+  if (!tbody) return;
+  tbody.innerHTML = '';
 
-    const panel = document.getElementById(`panel-${id}`);
-    if (panel) panel.classList.add('active');
+  var recent = products.slice().reverse().slice(0, 6);
+  if (recent.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:var(--text-300);padding:32px">Henüz ürün yok.</td></tr>';
+    return;
+  }
+  recent.forEach(function(prod) {
+    var cat = cats.find(function(c) { return c.id === prod.categoryId; });
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td><div class="td-product">' +
+        '<div class="table-img">' +
+          (prod.image
+            ? '<img src="' + prod.image + '" alt="' + esc(prod.name) + '">'
+            : '<span>' + esc((cat && cat.icon) || '🍽️') + '</span>') +
+        '</div>' +
+        '<div><div class="td-name">' + esc(prod.name) + '</div>' +
+        '<div class="td-desc">' + esc(prod.description || '') + '</div></div>' +
+      '</div></td>' +
+      '<td><span class="badge badge-cat">' + esc((cat && cat.name) || '—') + '</span></td>' +
+      '<td><span class="badge badge-price">' + Number(prod.price).toFixed(0) + '₺</span></td>';
+    tbody.appendChild(tr);
+  });
+}
 
-    const navBtn = document.querySelector(`.nav-item[data-panel="${id}"]`);
-    if (navBtn) navBtn.classList.add('active');
+// ════════════════════════════════════════════
+// ÜRÜNLER
+// ════════════════════════════════════════════
+var productFormBound = false;
 
-    const topTitle = document.getElementById('topbar-title');
-    const titles = {
-      dashboard:  'Dashboard',
-      products:   'Ürün Yönetimi',
-      categories: 'Kategori Yönetimi',
-      settings:   'Ayarlar',
-      qr:         'QR Kod'
-    };
-    if (topTitle) topTitle.textContent = titles[id] || '';
+function renderProducts() {
+  buildCatOptions('prod-category');
+  if (!productFormBound) { bindProductForm(); productFormBound = true; }
+  renderProductTable();
+}
 
-    // Panel'e özel render
-    if (id === 'dashboard')  this.renderDashboard();
-    if (id === 'products')   this.renderProducts();
-    if (id === 'categories') this.renderCategories();
-    if (id === 'settings')   this.renderSettings();
-    if (id === 'qr')         this.renderQR();
-  },
+function buildCatOptions(selectId) {
+  var sel = getEl(selectId);
+  if (!sel) return;
+  var current = sel.value;
+  sel.innerHTML = '<option value="">— Kategori Seç —</option>';
+  cats.slice().sort(function(a,b){ return a.order - b.order; }).forEach(function(cat) {
+    var opt = document.createElement('option');
+    opt.value = cat.id;
+    opt.textContent = cat.icon + ' ' + cat.name;
+    sel.appendChild(opt);
+  });
+  sel.value = current;
+}
 
-  /* ════════════════ DASHBOARD ════════════════ */
-  renderDashboard() {
-    const el = id => document.getElementById(id);
-    if (el('stat-products'))   el('stat-products').textContent   = this.products.length;
-    if (el('stat-categories')) el('stat-categories').textContent = this.categories.length;
-    if (el('stat-name'))       el('stat-name').textContent       = this.settings.name;
+function bindProductForm() {
+  var form      = getEl('product-form');
+  var uploadArea = getEl('prod-img-area');
+  var fileInput  = getEl('prod-img-input');
+  var preview    = getEl('prod-img-preview');
 
-    // Son ürünler
-    const tbody = el('recent-products-body');
-    if (!tbody) return;
-    tbody.innerHTML = '';
-
-    const recent = [...this.products].slice(-5).reverse();
-    recent.forEach(prod => {
-      const cat = this.categories.find(c => c.id === prod.categoryId);
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>
-          <div class="td-product">
-            <div class="table-img">${cat?.icon || '🍽️'}</div>
-            <div>
-              <div class="td-name">${escHtml(prod.name)}</div>
-              <div class="td-desc">${escHtml(prod.description || '')}</div>
-            </div>
-          </div>
-        </td>
-        <td><span class="badge badge-cat">${escHtml(cat?.name || 'Bilinmiyor')}</span></td>
-        <td><span class="badge badge-price">${Number(prod.price).toFixed(0)}₺</span></td>
-      `;
-      tbody.appendChild(tr);
-    });
-  },
-
-  /* ════════════════ ÜRÜNLER ════════════════ */
-  renderProducts() {
-    this.buildCategoryOptions('prod-category');
-    this.bindProductForm();
-    this.renderProductTable();
-  },
-
-  buildCategoryOptions(selectId) {
-    const sel = document.getElementById(selectId);
-    if (!sel) return;
-    sel.innerHTML = '<option value="">— Kategori Seç —</option>';
-    const sorted = [...this.categories].sort((a,b) => a.order - b.order);
-    sorted.forEach(cat => {
-      const opt = document.createElement('option');
-      opt.value = cat.id;
-      opt.textContent = `${cat.icon} ${cat.name}`;
-      sel.appendChild(opt);
-    });
-  },
-
-  bindProductForm() {
-    const form = document.getElementById('product-form');
-    if (!form || form.dataset.bound === '1') return;
-    form.dataset.bound = '1';
-
-    // Fotoğraf yükleme
-    const uploadArea = document.getElementById('prod-img-area');
-    const fileInput  = document.getElementById('prod-img-input');
-    const preview    = document.getElementById('prod-img-preview');
-
-    uploadArea?.addEventListener('click', () => fileInput?.click());
-    uploadArea?.addEventListener('dragover', e => { e.preventDefault(); uploadArea.classList.add('dragover'); });
-    uploadArea?.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
-    uploadArea?.addEventListener('drop', async e => {
+  if (uploadArea) {
+    uploadArea.addEventListener('click', function() { if (fileInput) fileInput.click(); });
+    uploadArea.addEventListener('dragover', function(e) { e.preventDefault(); uploadArea.classList.add('dragover'); });
+    uploadArea.addEventListener('dragleave', function() { uploadArea.classList.remove('dragover'); });
+    uploadArea.addEventListener('drop', function(e) {
       e.preventDefault();
       uploadArea.classList.remove('dragover');
-      const file = e.dataTransfer.files[0];
-      if (file && file.type.startsWith('image/')) {
-        await this.loadImagePreview(file, preview, uploadArea);
-      }
+      var file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith('image/')) applyImagePreview(file, preview, uploadArea);
     });
+  }
 
-    fileInput?.addEventListener('change', async () => {
-      const file = fileInput.files[0];
-      if (file) await this.loadImagePreview(file, preview, uploadArea);
+  if (fileInput) {
+    fileInput.addEventListener('change', function() {
+      var file = fileInput.files[0];
+      if (file) applyImagePreview(file, preview, uploadArea);
     });
+  }
 
-    // Form gönder
-    form.addEventListener('submit', async e => {
+  if (form) {
+    form.addEventListener('submit', function(e) {
       e.preventDefault();
-      await this.saveProduct();
+      saveProduct();
     });
+  }
 
-    // İptal
-    document.getElementById('prod-cancel-btn')?.addEventListener('click', () => {
-      this.resetProductForm();
-    });
-  },
+  var cancelBtn = getEl('prod-cancel-btn');
+  if (cancelBtn) cancelBtn.addEventListener('click', resetProductForm);
+}
 
-  async loadImagePreview(file, previewEl, areaEl) {
-    const b64 = await fileToBase64(file);
-    if (previewEl) { previewEl.src = b64; previewEl.style.display = 'block'; }
-    const uploadContent = areaEl?.querySelector('.upload-content');
-    if (uploadContent) uploadContent.style.display = 'none';
-    const overlay = areaEl?.querySelector('.image-preview-overlay');
-    if (overlay) overlay.style.display = 'flex';
-    areaEl.dataset.imageData = b64;
-  },
+function applyImagePreview(file, preview, area) {
+  fileToB64(file).then(function(b64) {
+    if (preview) { preview.src = b64; preview.style.display = 'block'; }
+    var content = area && area.querySelector('.upload-content');
+    if (content) content.style.display = 'none';
+    if (area) area.dataset.imageData = b64;
+  });
+}
 
-  async saveProduct() {
-    const getValue = id => document.getElementById(id)?.value?.trim() || '';
-    const name  = getValue('prod-name');
-    const price = getValue('prod-price');
-    const catId = getValue('prod-category');
-    const desc  = getValue('prod-desc');
-    const badge = getValue('prod-badge');
-    const imgArea = document.getElementById('prod-img-area');
-    const imageData = imgArea?.dataset.imageData || '';
+function saveProduct() {
+  var name   = getVal('prod-name');
+  var price  = getVal('prod-price');
+  var catId  = getVal('prod-category');
+  var desc   = getVal('prod-desc');
+  var badge  = getVal('prod-badge');
+  var area   = getEl('prod-img-area');
+  var imgData = (area && area.dataset.imageData) ? area.dataset.imageData : '';
 
-    if (!name)  { showToast('Ürün adı zorunludur.', 'error'); return; }
-    if (!price) { showToast('Fiyat zorunludur.', 'error'); return; }
-    if (!catId) { showToast('Kategori seçiniz.', 'error'); return; }
+  if (!name)  { toast('Ürün adı zorunludur.', 'error'); return; }
+  if (!price) { toast('Fiyat zorunludur.', 'error'); return; }
+  if (!catId) { toast('Kategori seçiniz.', 'error'); return; }
 
-    if (this.editingProd) {
-      // Güncelle
-      const idx = this.products.findIndex(p => p.id === this.editingProd);
-      if (idx !== -1) {
-        this.products[idx] = {
-          ...this.products[idx],
-          name, price: Number(price), categoryId: catId,
-          description: desc, badge,
-          ...(imageData ? { image: imageData } : {})
-        };
-        showToast('Ürün güncellendi!');
-      }
-    } else {
-      // Yeni ekle
-      this.products.push({
-        id: uid(), categoryId: catId, name,
-        price: Number(price), description: desc,
-        badge, image: imageData
-      });
-      showToast('Ürün eklendi!');
+  if (editingProdId) {
+    var idx = products.findIndex(function(p) { return p.id === editingProdId; });
+    if (idx !== -1) {
+      products[idx].name        = name;
+      products[idx].price       = Number(price);
+      products[idx].categoryId  = catId;
+      products[idx].description = desc;
+      products[idx].badge       = badge;
+      if (imgData) products[idx].image = imgData;
+      toast('Ürün güncellendi!');
     }
+  } else {
+    products.push({ id: uid(), categoryId: catId, name: name, price: Number(price), description: desc, badge: badge, image: imgData });
+    toast('Ürün eklendi!');
+  }
 
-    DB.saveProducts(this.products);
-    this.resetProductForm();
-    this.renderProductTable();
-    this.renderDashboard();
-  },
+  Store.saveProducts(products);
+  resetProductForm();
+  renderProductTable();
+  renderDashboard();
+}
 
-  resetProductForm() {
-    this.editingProd = null;
-    document.getElementById('product-form')?.reset();
-    const imgArea = document.getElementById('prod-img-area');
-    if (imgArea) {
-      imgArea.dataset.imageData = '';
-      const preview = document.getElementById('prod-img-preview');
-      if (preview) { preview.style.display = 'none'; preview.src = ''; }
-      const content = imgArea.querySelector('.upload-content');
-      if (content) content.style.display = '';
-    }
-    const saveBtn = document.getElementById('prod-save-btn');
-    if (saveBtn) saveBtn.textContent = '💾 Ürün Ekle';
-    document.getElementById('prod-cancel-btn')?.style && (document.getElementById('prod-cancel-btn').style.display = 'none');
-  },
+function resetProductForm() {
+  editingProdId = null;
+  var form = getEl('product-form');
+  if (form) form.reset();
 
-  renderProductTable() {
-    const tbody = document.getElementById('products-tbody');
-    if (!tbody) return;
-    tbody.innerHTML = '';
+  var area    = getEl('prod-img-area');
+  var preview = getEl('prod-img-preview');
+  if (area)    { area.dataset.imageData = ''; }
+  if (preview) { preview.style.display = 'none'; preview.src = ''; }
 
-    if (this.products.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:rgba(255,255,255,0.3);padding:40px">Henüz ürün eklenmedi.</td></tr>';
-      return;
-    }
+  var content = area && area.querySelector('.upload-content');
+  if (content) content.style.display = '';
 
-    this.products.forEach(prod => {
-      const cat = this.categories.find(c => c.id === prod.categoryId);
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>
-          <div class="td-product">
-            <div class="table-img">
-              ${prod.image
-                ? `<img src="${prod.image}" alt="${escHtml(prod.name)}">`
-                : `<span style="font-size:22px">${cat?.icon || '🍽️'}</span>`}
-            </div>
-            <div>
-              <div class="td-name">${escHtml(prod.name)}</div>
-              <div class="td-desc">${escHtml(prod.description || '')}</div>
-            </div>
-          </div>
-        </td>
-        <td><span class="badge badge-cat">${escHtml(cat?.name || '—')}</span></td>
-        <td><span class="badge badge-price">${Number(prod.price).toFixed(0)}₺</span></td>
-        <td>${prod.badge ? `<span class="badge" style="background:rgba(212,160,23,.15);color:var(--gold-300);border:1px solid rgba(212,160,23,.25)">${escHtml(prod.badge)}</span>` : '—'}</td>
-        <td>
-          <div class="actions-cell">
-            <button class="btn btn-success" onclick="Admin.editProduct('${prod.id}')">✏️ Düzenle</button>
-            <button class="btn btn-danger"  onclick="Admin.deleteProduct('${prod.id}')">🗑️ Sil</button>
-          </div>
-        </td>
-      `;
-      tbody.appendChild(tr);
+  var saveBtn   = getEl('prod-save-btn');
+  var cancelBtn = getEl('prod-cancel-btn');
+  if (saveBtn)   saveBtn.textContent = '💾 Ürün Ekle';
+  if (cancelBtn) cancelBtn.style.display = 'none';
+}
+
+function renderProductTable() {
+  var tbody = getEl('products-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+
+  if (products.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-300);padding:40px">Henüz ürün eklenmedi.</td></tr>';
+    return;
+  }
+
+  products.forEach(function(prod) {
+    var cat = cats.find(function(c) { return c.id === prod.categoryId; });
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td><div class="td-product">' +
+        '<div class="table-img">' +
+          (prod.image
+            ? '<img src="' + prod.image + '" alt="' + esc(prod.name) + '">'
+            : '<span style="font-size:18px">' + esc((cat && cat.icon) || '🍽️') + '</span>') +
+        '</div>' +
+        '<div><div class="td-name">' + esc(prod.name) + '</div>' +
+        '<div class="td-desc">' + esc(prod.description || '') + '</div></div>' +
+      '</div></td>' +
+      '<td><span class="badge badge-cat">' + esc((cat && cat.name) || '—') + '</span></td>' +
+      '<td><span class="badge badge-price">' + Number(prod.price).toFixed(0) + '₺</span></td>' +
+      '<td>' + (prod.badge ? '<span class="badge badge-cat">' + esc(prod.badge) + '</span>' : '—') + '</td>' +
+      '<td><div class="actions-cell">' +
+        '<button class="btn btn-success" onclick="editProduct(\'' + prod.id + '\')">✏️ Düzenle</button>' +
+        '<button class="btn btn-danger"  onclick="deleteProduct(\'' + prod.id + '\')">🗑️ Sil</button>' +
+      '</div></td>';
+    tbody.appendChild(tr);
+  });
+}
+
+function editProduct(id) {
+  var prod = products.find(function(p) { return p.id === id; });
+  if (!prod) return;
+  editingProdId = id;
+
+  setVal('prod-name',     prod.name);
+  setVal('prod-price',    prod.price);
+  setVal('prod-category', prod.categoryId);
+  setVal('prod-desc',     prod.description || '');
+  setVal('prod-badge',    prod.badge || '');
+
+  var area    = getEl('prod-img-area');
+  var preview = getEl('prod-img-preview');
+  if (prod.image && area && preview) {
+    area.dataset.imageData = prod.image;
+    preview.src = prod.image;
+    preview.style.display = 'block';
+    var content = area.querySelector('.upload-content');
+    if (content) content.style.display = 'none';
+  }
+
+  var saveBtn   = getEl('prod-save-btn');
+  var cancelBtn = getEl('prod-cancel-btn');
+  if (saveBtn)   saveBtn.textContent = '💾 Güncelle';
+  if (cancelBtn) cancelBtn.style.display = '';
+
+  var formCard = getEl('product-form-card') || getEl('product-form');
+  if (formCard) formCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function deleteProduct(id) {
+  if (!confirm('Bu ürünü silmek istediğinize emin misiniz?')) return;
+  products = products.filter(function(p) { return p.id !== id; });
+  Store.saveProducts(products);
+  renderProductTable();
+  renderDashboard();
+  toast('Ürün silindi.');
+}
+
+// ════════════════════════════════════════════
+// KATEGORİLER
+// ════════════════════════════════════════════
+var catFormBound = false;
+
+function renderCategories() {
+  renderCategoryList();
+  if (!catFormBound) { bindCategoryForm(); catFormBound = true; }
+}
+
+function bindCategoryForm() {
+  var form = getEl('category-form');
+  if (!form) return;
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var name = getVal('cat-name');
+    var icon = getVal('cat-icon') || '🍽️';
+    if (!name) { toast('Kategori adı zorunludur.', 'error'); return; }
+    cats.push({ id: uid(), name: name, icon: icon, order: cats.length + 1 });
+    Store.saveCats(cats);
+    form.reset();
+    renderCategoryList();
+    buildCatOptions('prod-category');
+    toast('Kategori eklendi!');
+  });
+}
+
+function renderCategoryList() {
+  var list = getEl('category-list');
+  if (!list) return;
+  list.innerHTML = '';
+
+  if (cats.length === 0) {
+    list.innerHTML = '<p style="text-align:center;color:var(--text-300);padding:24px">Henüz kategori yok.</p>';
+    return;
+  }
+
+  cats.slice().sort(function(a,b){ return a.order - b.order; }).forEach(function(cat) {
+    var count = products.filter(function(p) { return p.categoryId === cat.id; }).length;
+    var item = document.createElement('div');
+    item.className = 'cat-item';
+    item.innerHTML =
+      '<div class="cat-item-icon">' + esc(cat.icon) + '</div>' +
+      '<div class="cat-item-name">' + esc(cat.name) + '</div>' +
+      '<div class="cat-item-count">' + count + ' ürün</div>' +
+      '<div class="actions-cell">' +
+        '<button class="btn btn-danger" onclick="deleteCategory(\'' + cat.id + '\')">🗑️ Sil</button>' +
+      '</div>';
+    list.appendChild(item);
+  });
+}
+
+function deleteCategory(id) {
+  var count = products.filter(function(p) { return p.categoryId === id; }).length;
+  var msg = count > 0
+    ? 'Bu kategoride ' + count + ' ürün var. Silmek istediğinizden emin misiniz?'
+    : 'Bu kategoriyi silmek istediğinizden emin misiniz?';
+  if (!confirm(msg)) return;
+  cats = cats.filter(function(c) { return c.id !== id; });
+  Store.saveCats(cats);
+  renderCategoryList();
+  buildCatOptions('prod-category');
+  renderDashboard();
+  toast('Kategori silindi.');
+}
+
+// ════════════════════════════════════════════
+// AYARLAR
+// ════════════════════════════════════════════
+var settingsFormBound = false;
+var logoFormBound = false;
+var passFormBound = false;
+
+function renderSettings() {
+  setVal('set-name',     settings.name);
+  setVal('set-subtitle', settings.subtitle);
+  setVal('set-phone',    settings.phone);
+  setVal('set-address',  settings.address);
+  setVal('set-hours',    settings.hours);
+
+  var logoPrev = getEl('logo-preview');
+  if (logoPrev && settings.logo) {
+    logoPrev.innerHTML = '<img src="' + settings.logo + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+  }
+
+  if (!settingsFormBound) { bindSettingsForm(); settingsFormBound = true; }
+  if (!logoFormBound)     { bindLogoUpload();   logoFormBound = true; }
+  if (!passFormBound)     { bindPassForm();      passFormBound = true; }
+}
+
+function bindSettingsForm() {
+  var form = getEl('settings-form');
+  if (!form) return;
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    settings.name     = getVal('set-name') || 'Onur Çay Evi';
+    settings.subtitle = getVal('set-subtitle');
+    settings.phone    = getVal('set-phone');
+    settings.address  = getVal('set-address');
+    settings.hours    = getVal('set-hours');
+    Store.saveSettings(settings);
+    toast('Ayarlar kaydedildi!');
+  });
+}
+
+function bindLogoUpload() {
+  var input = getEl('logo-file-input');
+  if (!input) return;
+  input.addEventListener('change', function() {
+    var file = input.files[0];
+    if (!file) return;
+    fileToB64(file).then(function(b64) {
+      settings.logo = b64;
+      Store.saveSettings(settings);
+      var prev = getEl('logo-preview');
+      if (prev) prev.innerHTML = '<img src="' + b64 + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+      toast('Logo güncellendi!');
     });
-  },
+  });
+}
 
-  editProduct(id) {
-    const prod = this.products.find(p => p.id === id);
-    if (!prod) return;
-    this.editingProd = id;
+function bindPassForm() {
+  var form = getEl('password-form');
+  if (!form) return;
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var oldP  = getVal('old-pass');
+    var newP  = getVal('new-pass');
+    var newP2 = getVal('new-pass2');
+    if (oldP !== ADMIN_PASS)       { toast('Mevcut şifre yanlış.', 'error'); return; }
+    if (!newP || newP.length < 4)  { toast('Şifre en az 4 karakter olmalı.', 'error'); return; }
+    if (newP !== newP2)            { toast('Şifreler eşleşmiyor.', 'error'); return; }
+    ADMIN_PASS = newP;
+    toast('Şifre güncellendi!');
+    form.reset();
+  });
+}
 
-    document.getElementById('prod-name').value     = prod.name;
-    document.getElementById('prod-price').value    = prod.price;
-    document.getElementById('prod-category').value = prod.categoryId;
-    document.getElementById('prod-desc').value     = prod.description || '';
-    document.getElementById('prod-badge').value    = prod.badge || '';
+// ════════════════════════════════════════════
+// QR KOD
+// ════════════════════════════════════════════
+function renderQR() {
+  var container = getEl('qr-canvas-container');
+  if (!container) return;
+  container.innerHTML = '';
 
-    if (prod.image) {
-      const imgArea = document.getElementById('prod-img-area');
-      const preview = document.getElementById('prod-img-preview');
-      if (imgArea)  imgArea.dataset.imageData = prod.image;
-      if (preview)  { preview.src = prod.image; preview.style.display = 'block'; }
-      const content = imgArea?.querySelector('.upload-content');
-      if (content) content.style.display = 'none';
-    }
+  var base = window.location.origin + window.location.pathname.replace('admin.html', '');
+  var url  = base + 'index.html';
 
-    const saveBtn = document.getElementById('prod-save-btn');
-    if (saveBtn) saveBtn.textContent = '💾 Güncelle';
-    const cancelBtn = document.getElementById('prod-cancel-btn');
-    if (cancelBtn) cancelBtn.style.display = '';
+  var urlDisplay = getEl('qr-url-display');
+  if (urlDisplay) { urlDisplay.href = url; urlDisplay.textContent = url; }
 
-    document.getElementById('product-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  },
-
-  deleteProduct(id) {
-    if (!confirm('Bu ürünü silmek istediğinize emin misiniz?')) return;
-    this.products = this.products.filter(p => p.id !== id);
-    DB.saveProducts(this.products);
-    this.renderProductTable();
-    this.renderDashboard();
-    showToast('Ürün silindi.');
-  },
-
-  /* ════════════════ KATEGORİLER ════════════════ */
-  renderCategories() {
-    this.renderCategoryList();
-    this.bindCategoryForm();
-  },
-
-  bindCategoryForm() {
-    const form = document.getElementById('category-form');
-    if (!form || form.dataset.bound === '1') return;
-    form.dataset.bound = '1';
-
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      const name = document.getElementById('cat-name')?.value.trim();
-      const icon = document.getElementById('cat-icon')?.value.trim() || '🍽️';
-
-      if (!name) { showToast('Kategori adı zorunludur.', 'error'); return; }
-
-      this.categories.push({
-        id: uid(), name, icon,
-        order: this.categories.length + 1
-      });
-      DB.saveCategories(this.categories);
-      form.reset();
-      this.renderCategoryList();
-      this.buildCategoryOptions('prod-category');
-      showToast('Kategori eklendi!');
-    });
-  },
-
-  renderCategoryList() {
-    const list = document.getElementById('category-list');
-    if (!list) return;
-    list.innerHTML = '';
-
-    if (this.categories.length === 0) {
-      list.innerHTML = '<p style="text-align:center;color:rgba(255,255,255,.3);padding:32px">Henüz kategori eklenmedi.</p>';
-      return;
-    }
-
-    const sorted = [...this.categories].sort((a,b) => a.order - b.order);
-    sorted.forEach(cat => {
-      const prodCount = this.products.filter(p => p.categoryId === cat.id).length;
-      const item = document.createElement('div');
-      item.className = 'cat-item';
-      item.innerHTML = `
-        <div class="cat-item-icon">${escHtml(cat.icon)}</div>
-        <div class="cat-item-name">${escHtml(cat.name)}</div>
-        <div class="cat-item-count">${prodCount} ürün</div>
-        <div class="actions-cell">
-          <button class="btn btn-danger" onclick="Admin.deleteCategory('${cat.id}')">🗑️ Sil</button>
-        </div>
-      `;
-      list.appendChild(item);
-    });
-  },
-
-  deleteCategory(id) {
-    const prodCount = this.products.filter(p => p.categoryId === id).length;
-    if (prodCount > 0) {
-      if (!confirm(`Bu kategoride ${prodCount} ürün var. Silmek istediğinizden emin misiniz? Ürünler kategorisiz kalacak.`)) return;
-    } else {
-      if (!confirm('Bu kategoriyi silmek istediğinize emin misiniz?')) return;
-    }
-    this.categories = this.categories.filter(c => c.id !== id);
-    DB.saveCategories(this.categories);
-    this.renderCategoryList();
-    this.buildCategoryOptions('prod-category');
-    this.renderDashboard();
-    showToast('Kategori silindi.');
-  },
-
-  /* ════════════════ AYARLAR ════════════════ */
-  renderSettings() {
-    const s = this.settings;
-    const setVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ''; };
-
-    setVal('set-name',     s.name);
-    setVal('set-subtitle', s.subtitle);
-    setVal('set-phone',    s.phone);
-    setVal('set-address',  s.address);
-    setVal('set-hours',    s.hours);
-
-    this.bindSettingsForm();
-    this.bindLogoUpload();
-    this.bindPasswordForm();
-  },
-
-  bindSettingsForm() {
-    const form = document.getElementById('settings-form');
-    if (!form || form.dataset.bound === '1') return;
-    form.dataset.bound = '1';
-
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      const getV = id => document.getElementById(id)?.value.trim() || '';
-      this.settings = {
-        ...this.settings,
-        name:     getV('set-name') || 'Onur Çay Evi',
-        subtitle: getV('set-subtitle'),
-        phone:    getV('set-phone'),
-        address:  getV('set-address'),
-        hours:    getV('set-hours')
-      };
-      DB.saveSettings(this.settings);
-      showToast('Ayarlar kaydedildi!');
-    });
-  },
-
-  bindLogoUpload() {
-    const logoInput = document.getElementById('logo-file-input');
-    const logoPrev  = document.getElementById('logo-preview');
-    if (!logoInput) return;
-
-    // Mevcut logo
-    if (this.settings.logo && logoPrev) {
-      logoPrev.innerHTML = `<img src="${this.settings.logo}" style="max-height:100%;max-width:100%;border-radius:50%">`;
-    }
-
-    logoInput.addEventListener('change', async () => {
-      const file = logoInput.files[0];
-      if (!file) return;
-      const b64 = await fileToBase64(file);
-      this.settings.logo = b64;
-      DB.saveSettings(this.settings);
-      if (logoPrev) logoPrev.innerHTML = `<img src="${b64}" style="max-height:100%;max-width:100%;border-radius:50%">`;
-      showToast('Logo güncellendi!');
-    });
-  },
-
-  bindPasswordForm() {
-    const form = document.getElementById('password-form');
-    if (!form || form.dataset.bound === '1') return;
-    form.dataset.bound = '1';
-
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      const oldPass  = document.getElementById('old-pass')?.value;
-      const newPass  = document.getElementById('new-pass')?.value;
-      const newPass2 = document.getElementById('new-pass2')?.value;
-
-      if (oldPass !== ADMIN_CONFIG.password) {
-        showToast('Mevcut şifre yanlış.', 'error'); return;
-      }
-      if (!newPass || newPass.length < 4) {
-        showToast('Yeni şifre en az 4 karakter olmalı.', 'error'); return;
-      }
-      if (newPass !== newPass2) {
-        showToast('Şifreler eşleşmiyor.', 'error'); return;
-      }
-      ADMIN_CONFIG.password = newPass;
-      showToast('Şifre güncellendi!');
-      form.reset();
-    });
-  },
-
-  /* ════════════════ QR KOD ════════════════ */
-  renderQR() {
-    const container = document.getElementById('qr-canvas-container');
-    if (!container) return;
-    container.innerHTML = '';
-
-    const url = window.location.origin + window.location.pathname.replace('admin.html', 'index.html');
-    document.getElementById('qr-url-display')?.setAttribute('href', url);
-    document.getElementById('qr-url-display')?.textContent = url;
-
-    // QRCode.js kütüphanesiyle oluştur
+  // QRCode kütüphanesi hazır değilse bekle
+  function tryGenerateQR(attempts) {
     if (typeof QRCode !== 'undefined') {
-      new QRCode(container, {
-        text: url,
-        width: 256,
-        height: 256,
-        colorDark: '#1a0a00',
-        colorLight: '#ffffff',
-        correctLevel: QRCode.CorrectLevel.H
-      });
+      try {
+        new QRCode(container, {
+          text: url, width: 240, height: 240,
+          colorDark: '#1c1108', colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      } catch(e) { useFallbackQR(container, url); }
+    } else if (attempts > 0) {
+      setTimeout(function() { tryGenerateQR(attempts - 1); }, 300);
     } else {
-      // Fallback: QR API
-      const img = document.createElement('img');
-      img.src = `https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=${encodeURIComponent(url)}&color=1a0a00&bgcolor=ffffff`;
-      img.alt = 'QR Kod';
-      img.style.cssText = 'width:256px;height:256px;display:block';
-      container.appendChild(img);
-    }
-
-    // İndir butonu
-    const dlBtn = document.getElementById('qr-download-btn');
-    if (dlBtn) {
-      dlBtn.onclick = () => {
-        const canvas = container.querySelector('canvas');
-        if (canvas) {
-          const a = document.createElement('a');
-          a.download = 'onur-cayevi-qr.png';
-          a.href = canvas.toDataURL();
-          a.click();
-        } else {
-          const img = container.querySelector('img');
-          if (img) { window.open(img.src, '_blank'); }
-        }
-      };
+      useFallbackQR(container, url);
     }
   }
-};
 
-// ── BAŞLAT ────────────────────────────────────────────────────────────────
-window.Admin = Admin;
-document.addEventListener('DOMContentLoaded', () => Admin.init());
+  function useFallbackQR(c, u) {
+    var img = document.createElement('img');
+    img.src = 'https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=' + encodeURIComponent(u) + '&color=1c1108&bgcolor=ffffff&margin=10';
+    img.alt = 'QR Kod';
+    img.style.cssText = 'width:240px;height:240px;display:block';
+    c.appendChild(img);
+  }
+
+  tryGenerateQR(10);
+
+  var dlBtn = getEl('qr-download-btn');
+  if (dlBtn) {
+    dlBtn.onclick = function() {
+      var canvas = container.querySelector('canvas');
+      if (canvas) {
+        var a = document.createElement('a');
+        a.download = 'onur-cayevi-qr.png';
+        a.href = canvas.toDataURL();
+        a.click();
+      } else {
+        var img = container.querySelector('img');
+        if (img) window.open(img.src, '_blank');
+      }
+    };
+  }
+}
+
+// ════════════════════════════════════════════
+// GLOBAL (inline onclick için)
+// ════════════════════════════════════════════
+window.editProduct   = editProduct;
+window.deleteProduct = deleteProduct;
+window.deleteCategory= deleteCategory;
+window.Admin = { showPanel: showPanel };
+
+// ════════════════════════════════════════════
+// BAŞLAT
+// ════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', function() {
+  // Login form
+  var loginForm = getEl('login-form');
+  if (loginForm) {
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var user = getVal('login-user');
+      var pass = getVal('login-pass');
+      var errEl = getEl('login-error');
+
+      if (user === ADMIN_USER && pass === ADMIN_PASS) {
+        doLogin();
+        showAdminPage();
+      } else {
+        if (errEl) {
+          errEl.textContent = 'Kullanıcı adı veya şifre hatalı.';
+          errEl.classList.add('show');
+          setTimeout(function() { errEl.classList.remove('show'); }, 3000);
+        }
+      }
+    });
+  }
+
+  // Zaten giriş yapılmış mı?
+  if (isLoggedIn()) {
+    showAdminPage();
+  } else {
+    showLoginPage();
+  }
+});
