@@ -33,9 +33,9 @@ var Store = {
     { id:'p_6',  categoryId:'cat_1', name:'Oralet Kuşburnulu',     price:15,  description:'C vitamini zengini kuşburnu aromalı meyve çayı.',                        image:'images/cay_kusburnu.png',   badge:'' },
     { id:'p_7',  categoryId:'cat_1', name:'Nane Limon',            price:15,  description:'Taze nane ve limonun buluşması, ferahlatıcı bitki çayı.',                image:'images/cay_nane_limon.png', badge:'Popüler' },
     { id:'p_8',  categoryId:'cat_1', name:'Ihlamur',               price:15,  description:'Doğal ıhlamur çiçeklerinden hazırlanan geleneksel bitki çayı.',          image:'images/cay_ihlamur.png',    badge:'' },
-    { id:'p_9',  categoryId:'cat_2', name:'Gözleme',               price:150, description:'Kare dilim gözleme, ince lavaş hamuru, iç malzeme seçiminize göre.',     image:'images/gozleme.png',        badge:'Özel' },
-    { id:'p_10', categoryId:'cat_2', name:'Tost (Tam)',             price:125, description:'Somon ekmeği 4 dilim, kaşarlı sucuklu tost. Tam porsiyon.',             image:'images/tost.png',           badge:'' },
-    { id:'p_11', categoryId:'cat_2', name:'Tost (Yarım)',           price:65,  description:'Somon ekmeği 2 dilim, kaşarlı sucuklu tost. Yarım porsiyon.',           image:'images/tost.png',           badge:'' }
+    { id:'p_9',  categoryId:'cat_2', name:'Gözleme',               price:150, description:'Kare dilim gözleme, ince lavaş hamuru, iç malzeme seçiminize göre.',     image:'images/gozleme.jpg',        badge:'Özel' },
+    { id:'p_10', categoryId:'cat_2', name:'Tost (Tam)',             price:125, description:'Somon ekmeği 4 dilim, kaşarlı sucuklu tost. Tam porsiyon.',             image:'images/tost.jpg',           badge:'' },
+    { id:'p_11', categoryId:'cat_2', name:'Tost (Yarım)',           price:65,  description:'Somon ekmeği 2 dilim, kaşarlı sucuklu tost. Yarım porsiyon.',           image:'images/tost.jpg',           badge:'' }
   ],
 
   get: function(key, def) {
